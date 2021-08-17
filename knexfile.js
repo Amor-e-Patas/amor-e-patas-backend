@@ -2,12 +2,12 @@
 module.exports = {
 
   development: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'root',
-      password: 'corea',
-      database: 'my_db'
+      user: 'postgres',
+      password: 'system',
+      database: 'amor-e-patas'
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -16,12 +16,12 @@ module.exports = {
   },
 
   staging: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'root',
-      password: 'corea',
-      database: 'my_db'
+      user: 'postgres',
+      password: 'system',
+      database: 'amor-e-patas'
     },
     pool: {
       min: 2,
@@ -34,12 +34,12 @@ module.exports = {
   },
 
   production: {
-    client: 'mysql',
+    client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'admin',
-      password: 'admin',
-      database: 'osiris'
+      user: 'postgres',
+      password: 'system',
+      database: 'amor-e-patas'
     },
     pool: {
       min: 2,

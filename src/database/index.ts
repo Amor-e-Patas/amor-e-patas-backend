@@ -1,12 +1,12 @@
 import knex from 'knex';
 
 const db = knex({
-  client: 'mysql',
+  client: 'pg',
   connection: {
     host: '127.0.0.1',
-    user: 'root',
-    password: 'corea',
-    database: 'my_db',
+    user: 'postgres',
+    password: 'system',
+    database: 'amor-e-patas',
   }
 });
 
