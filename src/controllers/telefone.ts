@@ -22,20 +22,18 @@ export default class TelefoneControllers {
     const { id } = req.params;
 
     try {
-      const users = await db('telefone')
+      const telefones = await db('telefone')
         .select(
-          'user.id',
-          'user.name',
-          'user.login',
-          'user.password'
+          'telefone.id_telefone',
+          'telefone.num_telefone',
         )
-        .where('user.id', id)
+        .where('telefone.id_telefone', id)
         ;
-      return res.status(200).json(users);
+      return res.status(200).json(telefones);
     } catch (err) {
       console.log(err);
       return res.status(400).json({
-        error: 'Houve um erro ao listar o usuário.'
+        error: 'Houve um erro ao listar o telefone.'
       });
     }
   }
@@ -46,22 +44,21 @@ export default class TelefoneControllers {
 
     try {
       const {
-        name,
-        login,
-        password
+        id_telefone,
+        num_telefone
       } = req.body;
 
-      const user = await trx('user').insert({ name, login, password});
+      const telefone = await trx('telefone').insert({id_telefone, num_telefone});
 
       await trx.commit();
       return res.status(201).json({
-        msg : "Usuário cadastrado com sucesso."
+        msg : "Telefone cadastrado com sucesso."
       });
 
     } catch (err) {
       await trx.rollback();
       return res.status(400).json({
-        error: 'Erro ao cadastrar usuário.'
+        error: 'Erro ao cadastrar telefone.'
       });
     }
   }
@@ -71,32 +68,28 @@ export default class TelefoneControllers {
 
     try {
       const {
-        id,
-        name,
-        login,
-        password
+        id_telefone,
+        num_telefone
       } = req.body;
       
-      const user = {
-        id: id,
-        name: name,
-        login: login,
-        password: password
+      const telefone = {
+        id_telefone: id_telefone,
+        num_telefone: num_telefone
       }
 
-      await trx('user').update(user).where('id', id);
+      await trx('telefone').update(telefone).where('id_telefone', id_telefone);
 
       await trx.commit();
 
       return res.status(201).json({
-        msg : "Usuário atualizado com sucesso."
+        msg : "Telefone atualizado com sucesso."
       });
 
     } catch (error) {
       console.log(error);
       await trx.rollback();
       return res.status(400).json({
-        error: 'Erro ao atualizar usuário.'
+        error: 'Erro ao atualizar telefone.'
       });
     }
   }
@@ -106,16 +99,16 @@ export default class TelefoneControllers {
     const trx = await trxProvider();
     try {
       const { id } = req.params;
-      await trx('user').delete().where('id',id);
+      await trx('telefone').delete().where('id_telefone',id);
       await trx.commit();
 
       return res.status(201).json({
-        msg : "Usuário excluído com sucesso."
+        msg : "Telefone excluído com sucesso."
       });
     } catch (error) {
       await trx.rollback();
       return res.status(400).json({
-        error: 'Erro ao remover usuário.'
+        error: 'Erro ao remover telefone.'
       });
     }
   }
