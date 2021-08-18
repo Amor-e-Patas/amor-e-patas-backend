@@ -4,10 +4,10 @@ import db from '../database';
 export default class TelefoneControllers {
   async index(req: Request, res: Response) {
     try {
-      const users = await db('user')
+      const users = await db('telefone')
         .select(
-          'db_telefone.id_telefone',
-          'db_telefone.num_telefone',
+          'telefone.id_telefone',
+          'telefone.num_telefone',
         );
       return res.status(200).json(users);
 
@@ -22,7 +22,7 @@ export default class TelefoneControllers {
     const { id } = req.params;
 
     try {
-      const users = await db('user')
+      const users = await db('telefone')
         .select(
           'user.id',
           'user.name',
