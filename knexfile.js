@@ -1,13 +1,15 @@
 // Update with your config settings.
+//require('dotenv').config();
+
 module.exports = {
 
   development: {
     client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'postgres',
-      password: 'system',
-      database: 'amor-e-patas'
+      user: process.env.DB_USER,
+      password: process.env.DB_USER,
+      database: process.env.DB_NAME
     },
     migrations: {
       tableName: 'knex_migrations',
@@ -19,9 +21,9 @@ module.exports = {
     client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'postgres',
-      password: 'system',
-      database: 'amor-e-patas'
+      user: process.env.DB_USER,
+      password: process.env.DB_USER,
+      database: process.env.DB_NAME
     },
     pool: {
       min: 2,
@@ -37,9 +39,9 @@ module.exports = {
     client: 'pg',
     connection: {
       host: '127.0.0.1',
-      user: 'postgres',
-      password: 'system',
-      database: 'amor-e-patas'
+      user: process.env.DB_USER,
+      password: process.env.DB_USER,
+      database: process.env.DB_NAME
     },
     pool: {
       min: 2,
