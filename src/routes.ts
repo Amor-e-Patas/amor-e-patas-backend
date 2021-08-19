@@ -1,13 +1,16 @@
 import express from 'express';
 import { Request, Response } from 'express';
-import TelefoneControllers from './controllers/telefone';
+
 
 // Imports dos controllers
 import UserControllers from './controllers/user';
+import TelefoneControllers from './controllers/telefone';
+import EnderecoControllers from './controllers/endereco';
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
 const telefoneControllers = new TelefoneControllers();
+const enderecoControllers = new EnderecoControllers();
 
 const routes = express.Router();
 
@@ -28,5 +31,13 @@ routes.get('/telefone/:id', telefoneControllers.show)
 routes.post('/telefone', telefoneControllers.create);
 routes.put('/telefone', telefoneControllers.update);
 routes.delete('/telefone/:id', telefoneControllers.delete);
+
+//Endereço
+routes.get('/enderecos', enderecoControllers.index);
+routes.get('/endereco/:id', enderecoControllers.show)
+routes.post('/endereco', enderecoControllers.create);
+routes.put('/endereco', enderecoControllers.update);
+routes.delete('/endereco/:id', enderecoControllers.delete);
+
 
 export default routes;

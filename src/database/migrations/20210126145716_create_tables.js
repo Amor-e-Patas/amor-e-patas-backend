@@ -7,6 +7,8 @@ exports.up = function (knex) {
 			table.date("data_nasc");
 			table.integer("id_telefone").unsigned();
 			table.foreign("id_telefone").references("telefone.id_telefone");
+			table.integer("id_endereco").unsigned();
+			table.foreign("id_endereco").references("db_endereco.id_endereco");
 		})
 
 };
