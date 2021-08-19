@@ -1,5 +1,5 @@
 // Update with your config settings.
-//require('dotenv').config();
+require('dotenv').config();
 
 module.exports = {
 
@@ -8,7 +8,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: process.env.DB_USER,
-      password: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME
     },
     migrations: {
@@ -22,7 +22,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: process.env.DB_USER,
-      password: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME
     },
     pool: {
@@ -40,7 +40,7 @@ module.exports = {
     connection: {
       host: '127.0.0.1',
       user: process.env.DB_USER,
-      password: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME
     },
     pool: {

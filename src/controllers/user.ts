@@ -4,12 +4,12 @@ import db from '../database/';
 export default class UsersController {
   async index(req: Request, res: Response) {
     try {
-      const users = await db('user')
+      const users = await db('db_usuario')
         .select(
-          'user.id',
-          'user.name',
-          'user.login',
-          'user.password',
+          'db_usuario.id_usuario',
+          'db_usuario.nome_usu',
+          'db_usuario.cpf',
+          'db_usuario.data_nasc',
         );
       return res.status(200).json(users);
 
@@ -24,14 +24,14 @@ export default class UsersController {
     const { id } = req.params;
 
     try {
-      const users = await db('user')
+      const users = await db('db_usuario')
         .select(
-          'user.id',
-          'user.name',
-          'user.login',
-          'user.password'
+          'db_usuario.id_usuario',
+          'db_usuario.nome_usu',
+          'db_usuario.cpf',
+          'db_usuario.data_nasc'
         )
-        .where('user.id', id)
+        .where('db_usuario.id_usuario', id)
         ;
       return res.status(200).json(users);
     } catch (err) {
@@ -48,12 +48,12 @@ export default class UsersController {
 
     try {
       const {
-        name,
-        login,
-        password
+        nome_usu,
+        cpf,
+        data_nasc
       } = req.body;
 
-      const user = await trx('user').insert({ name, login, password});
+      const user = await trx('db_usuario').insert({ nome_usu, cpf, data_nasc});
 
       await trx.commit();
       return res.status(201).json({
@@ -73,20 +73,20 @@ export default class UsersController {
 
     try {
       const {
-        id,
-        name,
-        login,
-        password
+        id_usuario,
+        nome_usu,
+        cpf,
+        data_nasc
       } = req.body;
       
       const user = {
-        id: id,
-        name: name,
-        login: login,
-        password: password
+        id_usuario: id_usuario,
+        nome_usu: nome_usu,
+        cpf: cpf,
+        data_nasc: data_nasc
       }
 
-      await trx('user').update(user).where('id', id);
+      await trx('db_usuario').update(user).where('id_usuario', id_usuario);
 
       await trx.commit();
 
@@ -108,7 +108,7 @@ export default class UsersController {
     const trx = await trxProvider();
     try {
       const { id } = req.params;
-      await trx('user').delete().where('id',id);
+      await trx('db_usuario').delete().where('id_usuario',id);
       await trx.commit();
 
       return res.status(201).json({

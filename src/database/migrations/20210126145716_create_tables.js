@@ -1,25 +1,19 @@
 exports.up = function (knex) {
 	return knex.schema
-		.createTable("user", function (table) {
-			table.increments("id");
-			table.string("name", 255).notNullable();
-			table.string("login", 255).notNullable();
-			table.string("password", 255).notNullable();
+		.createTable("db_usuario", function (table) {
+			table.increments("id_usuario");
+			table.string("nome_usu", 100);
+			table.string("cpf", 14);
+			table.date("data_nasc");
+			table.integer("id_telefone").unsigned();
+			table.foreign("id_telefone").references("telefone.id_telefone");
 		})
 
-};
-
-exports.up = function (knex){
-	return knex.schema
-		.createTable("telefone", function(table){
-			table.increments("id_telefone");
-			table.string("num_telefone", 11);
-		})
 };
 
 exports.down = function (knex) {
 	return knex.schema
-		.dropTable("user")
+		.dropTable("db_usuario")
 };
 
 exports.config = { transaction: false };
