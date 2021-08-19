@@ -10,6 +10,8 @@ exports.up = function (knex) {
 			table.foreign("id_telefone").references("db_telefone.id_telefone");
 			table.integer("id_endereco").unsigned();
 			table.foreign("id_endereco").references("db_endereco.id_endereco");
+			table.string("email").unsigned();
+			table.foreign("email").references("db_login.email");
 		})
 
 };
