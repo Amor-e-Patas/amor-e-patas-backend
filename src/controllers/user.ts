@@ -5,11 +5,22 @@ export default class UsersController {
   async index(req: Request, res: Response) {
     try {
       const users = await db('db_usuario')
+      .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+      .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
           'db_usuario.cpf',
           'db_usuario.data_nasc',
+          'db_usuario.genero',
+          'db_endereco.cep',
+          'db_endereco.bairro',
+          'db_endereco.endereco',
+          'db_endereco.numero',
+          'db_endereco.referencia',
+          'db_endereco.estado',
+          'db_endereco.cidade',
+          'db_telefone.num_telefone'
         );
       return res.status(200).json(users);
 
@@ -25,11 +36,22 @@ export default class UsersController {
 
     try {
       const users = await db('db_usuario')
+      .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+      .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
           'db_usuario.cpf',
-          'db_usuario.data_nasc'
+          'db_usuario.data_nasc',
+          'db_usuario.genero',
+          'db_endereco.cep',
+          'db_endereco.bairro',
+          'db_endereco.endereco',
+          'db_endereco.numero',
+          'db_endereco.referencia',
+          'db_endereco.estado',
+          'db_endereco.cidade',
+          'db_telefone.num_telefone'
         )
         .where('db_usuario.id_usuario', id)
         ;
@@ -50,10 +72,11 @@ export default class UsersController {
       const {
         nome_usu,
         cpf,
-        data_nasc
+        data_nasc,
+        genero
       } = req.body;
 
-      const user = await trx('db_usuario').insert({ nome_usu, cpf, data_nasc});
+      const user = await trx('db_usuario').insert({ nome_usu, cpf, data_nasc, genero});
 
       await trx.commit();
       return res.status(201).json({
@@ -76,14 +99,16 @@ export default class UsersController {
         id_usuario,
         nome_usu,
         cpf,
-        data_nasc
+        data_nasc,
+        genero
       } = req.body;
       
       const user = {
         id_usuario: id_usuario,
         nome_usu: nome_usu,
         cpf: cpf,
-        data_nasc: data_nasc
+        data_nasc: data_nasc,
+        genero: genero
       }
 
       await trx('db_usuario').update(user).where('id_usuario', id_usuario);
