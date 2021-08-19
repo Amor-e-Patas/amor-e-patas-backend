@@ -6,11 +6,13 @@ import { Request, Response } from 'express';
 import UserControllers from './controllers/user';
 import TelefoneControllers from './controllers/telefone';
 import EnderecoControllers from './controllers/endereco';
+import LoginControllers from './controllers/login';
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
 const telefoneControllers = new TelefoneControllers();
 const enderecoControllers = new EnderecoControllers();
+const loginControllers = new LoginControllers();
 
 const routes = express.Router();
 
@@ -38,6 +40,14 @@ routes.get('/endereco/:id', enderecoControllers.show)
 routes.post('/endereco', enderecoControllers.create);
 routes.put('/endereco', enderecoControllers.update);
 routes.delete('/endereco/:id', enderecoControllers.delete);
+
+//Login
+
+routes.get('/login', loginControllers.index);
+routes.get('/login/:email', enderecoControllers.show)
+routes.post('/login', enderecoControllers.create);
+routes.put('/login', enderecoControllers.update);
+routes.delete('/login/:email', enderecoControllers.delete);
 
 
 export default routes;
