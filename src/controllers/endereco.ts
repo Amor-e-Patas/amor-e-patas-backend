@@ -66,7 +66,7 @@ export default class EnderecoControllers {
         cidade
       } = req.body;
 
-      const db_endereco = await trx('endereco').insert({id_endereco,cep,bairro,endereco,numero,referencia,estado,cidade});
+      const db_endereco = await trx('db_endereco').insert({id_endereco,cep,bairro,endereco,numero,referencia,estado,cidade});
 
       await trx.commit();
       return res.status(201).json({
@@ -107,7 +107,7 @@ export default class EnderecoControllers {
         cidade: cidade
       }
 
-      await trx('endereco').update(db_endereco).where('id_endereco', id_endereco);
+      await trx('db_endereco').update(db_endereco).where('id_endereco', id_endereco);
 
       await trx.commit();
 
@@ -129,7 +129,7 @@ export default class EnderecoControllers {
     const trx = await trxProvider();
     try {
       const { id } = req.params;
-      await trx('endereco').delete().where('id_endereco',id);
+      await trx('db_endereco').delete().where('id_endereco',id);
       await trx.commit();
 
       return res.status(201).json({

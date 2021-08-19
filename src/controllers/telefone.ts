@@ -22,12 +22,12 @@ export default class TelefoneControllers {
     const { id } = req.params;
 
     try {
-      const telefones = await db('telefone')
+      const telefones = await db('db_telefone')
         .select(
-          'telefone.id_telefone',
-          'telefone.num_telefone',
+          'db_telefone.id_telefone',
+          'db_telefone.num_telefone',
         )
-        .where('telefone.id_telefone', id)
+        .where('db_telefone.id_telefone', id)
         ;
       return res.status(200).json(telefones);
     } catch (err) {
@@ -48,7 +48,7 @@ export default class TelefoneControllers {
         num_telefone
       } = req.body;
 
-      const telefone = await trx('telefone').insert({id_telefone, num_telefone});
+      const telefone = await trx('db_telefone').insert({id_telefone, num_telefone});
 
       await trx.commit();
       return res.status(201).json({
@@ -77,7 +77,7 @@ export default class TelefoneControllers {
         num_telefone: num_telefone
       }
 
-      await trx('telefone').update(telefone).where('id_telefone', id_telefone);
+      await trx('db_telefone').update(telefone).where('id_telefone', id_telefone);
 
       await trx.commit();
 
@@ -99,7 +99,7 @@ export default class TelefoneControllers {
     const trx = await trxProvider();
     try {
       const { id } = req.params;
-      await trx('telefone').delete().where('id_telefone',id);
+      await trx('db_telefone').delete().where('id_telefone',id);
       await trx.commit();
 
       return res.status(201).json({

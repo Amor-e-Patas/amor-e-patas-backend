@@ -5,8 +5,9 @@ exports.up = function (knex) {
 			table.string("nome_usu", 100);
 			table.string("cpf", 14);
 			table.date("data_nasc");
+			table.string("genero");
 			table.integer("id_telefone").unsigned();
-			table.foreign("id_telefone").references("telefone.id_telefone");
+			table.foreign("id_telefone").references("db_telefone.id_telefone");
 			table.integer("id_endereco").unsigned();
 			table.foreign("id_endereco").references("db_endereco.id_endereco");
 		})
@@ -15,6 +16,8 @@ exports.up = function (knex) {
 
 exports.down = function (knex) {
 	return knex.schema
+	    .dropTable("db_telefone")
+		.dropTable("db_endereco")
 		.dropTable("db_usuario")
 };
 
