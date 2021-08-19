@@ -7,6 +7,8 @@ export default class UsersController {
       const users = await db('db_usuario')
       .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
       .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
+      .join("db_login", "db_usuario.email", "db_login.email")
+      
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
@@ -20,7 +22,9 @@ export default class UsersController {
           'db_endereco.referencia',
           'db_endereco.estado',
           'db_endereco.cidade',
-          'db_telefone.num_telefone'
+          'db_telefone.num_telefone',
+          'db_login.email',
+          'db_login.senha'
         );
       return res.status(200).json(users);
 
@@ -38,6 +42,7 @@ export default class UsersController {
       const users = await db('db_usuario')
       .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
       .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
+      .join("db_login", "db_usuario.email", "db_login.email")
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
@@ -51,7 +56,9 @@ export default class UsersController {
           'db_endereco.referencia',
           'db_endereco.estado',
           'db_endereco.cidade',
-          'db_telefone.num_telefone'
+          'db_telefone.num_telefone',
+          'db_login.email',
+          'db_login.senha'
         )
         .where('db_usuario.id_usuario', id)
         ;
