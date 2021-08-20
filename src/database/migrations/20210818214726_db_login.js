@@ -2,7 +2,7 @@
 exports.up = function (knex) {
 	return knex.schema
 		.createTable("db_login", function (table) {
-			table.string("email", 100);
+			table.string("email", 100).notNullable().primary();
 			table.string("senha", 45);
 			
 		})
