@@ -76,6 +76,18 @@ export default class UsersController {
     const trx = await trxProvider();
 
     try {
+      const [id_login] = await trx("db_login").insert(
+        req.body.login
+       ).returning('id_login');
+
+       const [id_endereco] = await trx("db_endereco").insert(
+        req.body.endereco
+       ).returning('id_endereco');
+
+       const [id_telefone] = await trx("db_telefone").insert(
+        req.body.telefone
+       ).returning('id_telefone');
+       
       const {
         nome_usu,
         cpf,
@@ -83,7 +95,15 @@ export default class UsersController {
         genero
       } = req.body;
 
-      const user = await trx('db_usuario').insert({ nome_usu, cpf, data_nasc, genero});
+      const user = await trx('db_usuario').insert({
+        nome_usu,
+        cpf,
+        data_nasc,
+        genero,
+        id_login,
+        id_endereco,
+        id_telefone}
+      );
 
       await trx.commit();
       return res.status(201).json({
@@ -91,6 +111,7 @@ export default class UsersController {
       });
 
     } catch (err) {
+      console.log(err);
       await trx.rollback();
       return res.status(400).json({
         error: 'Erro ao cadastrar usuário.'

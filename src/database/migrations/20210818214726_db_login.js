@@ -2,7 +2,8 @@
 exports.up = function (knex) {
 	return knex.schema
 		.createTable("db_login", function (table) {
-			table.string("email", 100).notNullable().primary();
+			table.increments("id_login");
+			table.string("email", 100).notNullable().unique();
 			table.string("senha", 45);
 			
 		})

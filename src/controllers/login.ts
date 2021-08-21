@@ -6,6 +6,7 @@ export default class LoginControllers {
     try {
       const logins = await db('db_login')
         .select(
+          'db_login.id_login',
           'db_login.email',
           'db_login.senha'
         );
@@ -19,15 +20,16 @@ export default class LoginControllers {
   }
 
   async show(req: Request, res: Response) {
-    const { email } = req.params;
+    const { id } = req.params;
 
     try {
       const login = await db('db_login')
         .select(
+          'db_login.id_login',
           'db_login.email',
           'db_login.senha'
         )
-        .where('db_login.email', email)
+        .where('db_login.id_login', id)
         ;
       return res.status(200).json(login);
     } catch (err) {
@@ -44,11 +46,12 @@ export default class LoginControllers {
 
     try {
       const {
+        id_login,
         email,
         senha
       } = req.body;
 
-      const db_login = await trx('db_login').insert({email, senha});
+      const db_login = await trx('db_login').insert({id_login, email, senha});
 
       await trx.commit();
       return res.status(201).json({
@@ -68,16 +71,18 @@ export default class LoginControllers {
 
     try {
       const {
+        id_login,
         email,
         senha
       } = req.body;
       
       const db_login = {
+        id_login: id_login,
         email: email,
         senha: senha
       }
 
-      await trx('db_login').update(db_login).where('email', email);
+      await trx('db_login').update(db_login).where('id_login', id_login);
 
       await trx.commit();
 
@@ -98,8 +103,8 @@ export default class LoginControllers {
     const trxProvider = await db.transactionProvider();
     const trx = await trxProvider();
     try {
-      const { email } = req.params;
-      await trx('db_login').delete().where('email',email);
+      const { id } = req.params;
+      await trx('db_login').delete().where('id_login',id);
       await trx.commit();
 
       return res.status(201).json({

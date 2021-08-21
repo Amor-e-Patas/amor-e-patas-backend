@@ -43,11 +43,11 @@ routes.delete('/endereco/:id', enderecoControllers.delete);
 
 //Login
 
-routes.get('/login', loginControllers.index);
-routes.get('/login/:email', enderecoControllers.show)
-routes.post('/login', enderecoControllers.create);
-routes.put('/login', enderecoControllers.update);
-routes.delete('/login/:email', enderecoControllers.delete);
+routes.get('/logins', loginControllers.index);
+routes.get('/login/:id', loginControllers.show)
+routes.post('/login', loginControllers.create);
+routes.put('/login', loginControllers.update);
+routes.delete('/login/:id', loginControllers.delete);
 
 
 export default routes;
