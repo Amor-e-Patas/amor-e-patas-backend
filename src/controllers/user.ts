@@ -7,7 +7,7 @@ export default class UsersController {
       const users = await db('db_usuario')
       .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
       .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
-      .join("db_login", "db_usuario.email", "db_login.email")
+      .join("db_login", "db_usuario.id_login", "db_login.id_login")
       
         .select(
           'db_usuario.id_usuario',
@@ -29,6 +29,7 @@ export default class UsersController {
       return res.status(200).json(users);
 
     } catch (err) {
+      console.log(err);
       return res.status(400).json({
         error: 'Houve um erro ao listar os usuários.'
       });
@@ -42,7 +43,7 @@ export default class UsersController {
       const users = await db('db_usuario')
       .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
       .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
-      .join("db_login", "db_usuario.email", "db_login.email")
+      .join("db_login", "db_usuario.id_login", "db_login.id_login")
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',

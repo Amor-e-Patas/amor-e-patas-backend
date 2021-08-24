@@ -1,12 +1,17 @@
 require('dotenv').config();
 import express from "express";
+import auth from './middleware/auth';
+import authRoutes from './routes/auth';
+import noAuthRoutes from './routes/noauth_routes'; 
 
-import routes from "./routes";
+import routes from "./routes/auth_routes";
 import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use("/", routes);
+app.use("/auth", authRoutes);
+app.use("/", noAuthRoutes);
+app.use("/", auth, routes);
 app.listen(3333);
