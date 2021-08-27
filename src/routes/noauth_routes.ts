@@ -15,6 +15,7 @@ routes.get('/', (req: Request, res: Response) => res.status(200).json("Hello wor
 // Criação das rotas para executar cada controller
 
 //Users
+
 routes.post('/user', userControllers.create);
 
 

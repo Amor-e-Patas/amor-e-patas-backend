@@ -48,4 +48,5 @@ routes.post('/login', loginControllers.create);
 routes.put('/login', loginControllers.update);
 routes.delete('/login/:id', loginControllers.delete);
 
+routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
