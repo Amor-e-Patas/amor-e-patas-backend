@@ -70,15 +70,20 @@ export default class LoginControllers {
     const trx = await trxProvider();
 
     try {
+
       const {
-        id_login,
-        email,
+        id_login
+      } = req.body.user;
+
+      const {
+        //id_login,
+        //email,
         senha
       } = req.body;
       
       const db_login = {
         id_login: id_login,
-        email: email,
+        //email: email,
         senha: senha
       }
 

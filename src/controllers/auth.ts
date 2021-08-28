@@ -10,7 +10,7 @@ export default class AuthControllers {
         const trx = await trxProvider();
         try {
             const { email, password } = req.body;
-
+            console.log(email, password);
             const login = await trx("db_login").select(
                 'senha', 'id_login'
             ).where('email', email);
@@ -21,7 +21,7 @@ export default class AuthControllers {
 
             if (login[0].senha == password) {
                 // Generate an access token
-                const accessToken = jwt.sign({ id_usuario, role: 'role' }, process.env.TOKEN_SECRET as string);
+                const accessToken = jwt.sign({ id_usuario, role: 'role', id_login: login[0].id_login}, process.env.TOKEN_SECRET as string);
 
                 return res.json({
                     accessToken

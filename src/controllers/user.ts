@@ -125,13 +125,20 @@ export default class UsersController {
 
     try {
       const {
-        id_usuario,
+        //id_usuario,
         nome_usu,
         cpf,
         data_nasc,
         genero
       } = req.body;
       
+      const {
+        role,
+        id_usuario,
+        id_login
+      } = req.body.user;
+
+
       const user = {
         id_usuario: id_usuario,
         nome_usu: nome_usu,
@@ -140,6 +147,7 @@ export default class UsersController {
         genero: genero
       }
 
+      
       await trx('db_usuario').update(user).where('id_usuario', id_usuario);
 
       await trx.commit();
