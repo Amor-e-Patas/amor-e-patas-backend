@@ -4,7 +4,7 @@ exports.up = function (knex) {
 			table.increments("id_usuario");
 			table.string("nome_usu", 100);
 			table.string("cpf", 14);
-			table.date("data_nasc");
+			table.string("data_nasc");
 			table.string("genero");
 			table.integer("id_telefone").unsigned();
 			table.foreign("id_telefone").references("db_telefone.id_telefone");

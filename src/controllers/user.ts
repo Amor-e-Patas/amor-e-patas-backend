@@ -63,7 +63,7 @@ export default class UsersController {
         )
         .where('db_usuario.id_usuario', id)
         ;
-      return res.status(200).json(users);
+      return res.status(200).json(users[0]);
     } catch (err) {
       console.log(err);
       return res.status(400).json({
@@ -124,6 +124,14 @@ export default class UsersController {
     const trx = await trxProvider();
 
     try {
+
+      const {
+        //role,
+        id_usuario
+       // id_login
+      } = req.body.user;
+
+
       const {
         //id_usuario,
         nome_usu,
@@ -132,21 +140,16 @@ export default class UsersController {
         genero
       } = req.body;
       
-      const {
-        role,
-        id_usuario,
-        id_login
-      } = req.body.user;
-
+     
 
       const user = {
-        id_usuario: id_usuario,
+        id_usuario: id_usuario as number,
         nome_usu: nome_usu,
         cpf: cpf,
         data_nasc: data_nasc,
         genero: genero
       }
-
+      console.log(id_usuario);
       
       await trx('db_usuario').update(user).where('id_usuario', id_usuario);
 
