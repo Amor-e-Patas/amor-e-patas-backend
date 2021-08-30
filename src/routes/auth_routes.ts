@@ -22,7 +22,7 @@ routes.get('/', (req: Request, res: Response) => res.status(200).json("Hello wor
 
 //Users
 routes.get('/users', userControllers.index);
-routes.get('/user/:id', userControllers.show);
+routes.get('/user', userControllers.show);
 routes.put('/user', userControllers.update);
 routes.delete('/user/:id', userControllers.delete);
 

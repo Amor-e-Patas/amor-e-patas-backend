@@ -37,7 +37,13 @@ export default class UsersController {
   }
 
   async show(req: Request, res: Response) {
-    const { id } = req.params;
+    //const { id } = req.params;
+
+    const {
+      //role,
+      id_usuario
+     // id_login
+    } = req.body.user;
 
     try {
       const users = await db('db_usuario')
@@ -61,7 +67,7 @@ export default class UsersController {
           'db_login.email',
           'db_login.senha'
         )
-        .where('db_usuario.id_usuario', id)
+        .where('db_usuario.id_usuario', id_usuario)
         ;
       return res.status(200).json(users[0]);
     } catch (err) {
@@ -143,7 +149,7 @@ export default class UsersController {
      
 
       const user = {
-        id_usuario: id_usuario as number,
+        //id_usuario: id_usuario,
         nome_usu: nome_usu,
         cpf: cpf,
         data_nasc: data_nasc,
