@@ -25,7 +25,14 @@ export default class EnderecoControllers {
   }
 
   async show(req: Request, res: Response) {
-    const { id } = req.params;
+
+    //const { id } = req.params;
+
+    const {
+      //role,
+      id_endereco
+     // id_login
+    } = req.body.user;
 
     try {
       const endereco = await db('db_endereco')
@@ -39,7 +46,7 @@ export default class EnderecoControllers {
           'db_endereco.estado',
           'db_endereco.cidade'
         )
-        .where('db_endereco.id_endereco', id)
+        .where('db_endereco.id_endereco', id_endereco)
         ;
       return res.status(200).json(endereco);
     } catch (err) {
@@ -55,8 +62,15 @@ export default class EnderecoControllers {
     const trx = await trxProvider();
 
     try {
+
       const {
-        id_endereco,
+        //role,
+        id_endereco
+       // id_login
+      } = req.body.user;
+
+      const {
+        //id_endereco,
         cep,
         bairro,
         endereco,
@@ -85,8 +99,17 @@ export default class EnderecoControllers {
     const trx = await trxProvider();
 
     try {
+
       const {
-        id_endereco,
+        //role,
+        id_endereco
+       // id_login
+      } = req.body.user;
+
+      console.log(id_endereco);
+      
+      const {
+        //id_endereco,
         cep,
         bairro,
         endereco,
@@ -97,7 +120,7 @@ export default class EnderecoControllers {
       } = req.body;
       
       const db_endereco = {
-        id_endereco: id_endereco,
+        //id_endereco: id_endereco,
         cep: cep,
         bairro: bairro,
         endereco: endereco,

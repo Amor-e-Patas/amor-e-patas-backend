@@ -35,7 +35,7 @@ routes.delete('/telefone/:id', telefoneControllers.delete);
 
 //Endereço
 routes.get('/enderecos', enderecoControllers.index);
-routes.get('/endereco/:id', enderecoControllers.show);
+routes.get('/endereco', enderecoControllers.show);
 routes.post('/endereco', enderecoControllers.create);
 routes.put('/endereco', enderecoControllers.update);
 routes.delete('/endereco/:id', enderecoControllers.delete);
