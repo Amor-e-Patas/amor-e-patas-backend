@@ -48,7 +48,7 @@ export default class EnderecoControllers {
         )
         .where('db_endereco.id_endereco', id_endereco)
         ;
-      return res.status(200).json(endereco);
+      return res.status(200).json(endereco[0]);
     } catch (err) {
       console.log(err);
       return res.status(400).json({
@@ -107,7 +107,7 @@ export default class EnderecoControllers {
       } = req.body.user;
 
       console.log(id_endereco);
-      
+
       const {
         //id_endereco,
         cep,
