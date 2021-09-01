@@ -20,7 +20,11 @@ export default class LoginControllers {
   }
 
   async show(req: Request, res: Response) {
-    const { id } = req.params;
+
+    const {
+        id_login
+      } = req.body.user;
+
 
     try {
       const login = await db('db_login')
@@ -29,9 +33,9 @@ export default class LoginControllers {
           'db_login.email',
           'db_login.senha'
         )
-        .where('db_login.id_login', id)
+        .where('db_login.id_login', id_login)
         ;
-      return res.status(200).json(login);
+      return res.status(200).json(login[0]);
     } catch (err) {
       console.log(err);
       return res.status(400).json({
