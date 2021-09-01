@@ -4,12 +4,12 @@ import db from '../database';
 export default class TelefoneControllers {
   async index(req: Request, res: Response) {
     try {
-      const users = await db('db_telefone')
+      const telefones = await db('db_telefone')
         .select(
           'db_telefone.id_telefone',
           'db_telefone.num_telefone',
         );
-      return res.status(200).json(users);
+      return res.status(200).json(telefones);
 
     } catch (err) {
       return res.status(400).json({
@@ -19,7 +19,11 @@ export default class TelefoneControllers {
   }
 
   async show(req: Request, res: Response) {
-    const { id } = req.params;
+    //const { id } = req.params;
+
+    const {
+      id_telefone
+    } = req.body.user;
 
     try {
       const telefones = await db('db_telefone')
@@ -27,9 +31,9 @@ export default class TelefoneControllers {
           'db_telefone.id_telefone',
           'db_telefone.num_telefone',
         )
-        .where('db_telefone.id_telefone', id)
+        .where('db_telefone.id_telefone', id_telefone)
         ;
-      return res.status(200).json(telefones);
+      return res.status(200).json(telefones[0]);
     } catch (err) {
       console.log(err);
       return res.status(400).json({
@@ -67,13 +71,18 @@ export default class TelefoneControllers {
     const trx = await trxProvider();
 
     try {
+
       const {
-        id_telefone,
+        id_telefone
+      } = req.body.user;
+
+      const {
+        //id_telefone,
         num_telefone
       } = req.body;
       
       const telefone = {
-        id_telefone: id_telefone,
+        //id_telefone: id_telefone,
         num_telefone: num_telefone
       }
 

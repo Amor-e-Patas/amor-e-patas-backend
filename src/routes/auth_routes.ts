@@ -28,7 +28,7 @@ routes.delete('/user/:id', userControllers.delete);
 
 //Telefone
 routes.get('/telefones', telefoneControllers.index);
-routes.get('/telefone/:id', telefoneControllers.show);
+routes.get('/telefone', telefoneControllers.show);
 routes.post('/telefone', telefoneControllers.create);
 routes.put('/telefone', telefoneControllers.update);
 routes.delete('/telefone/:id', telefoneControllers.delete);
@@ -43,7 +43,7 @@ routes.delete('/endereco/:id', enderecoControllers.delete);
 //Login
 
 routes.get('/logins', loginControllers.index);
-routes.get('/login/:id', loginControllers.show);
+routes.get('/login', loginControllers.show);
 routes.post('/login', loginControllers.create);
 routes.put('/login', loginControllers.update);
 routes.delete('/login/:id', loginControllers.delete);

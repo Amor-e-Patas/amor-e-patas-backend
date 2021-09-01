@@ -16,14 +16,14 @@ export default class AuthControllers {
             ).where('email', email);
         
             const db_usuario = await trx("db_usuario").select(
-                'id_usuario', 'id_endereco'
+                'id_usuario', 'id_endereco', 'id_telefone'
             ).where('id_login', login[0].id_login);
 
 
             if (login[0].senha == password) {
                 // Generate an access token
-                console.log(db_usuario[0].id_endereco);
-                const accessToken = jwt.sign({id_usuario: db_usuario[0].id_usuario, role: 'role', id_login: login[0].id_login, id_endereco: db_usuario[0].id_endereco}, process.env.TOKEN_SECRET as string);
+                console.log(db_usuario[0].id_telefone);
+                const accessToken = jwt.sign({id_usuario: db_usuario[0].id_usuario, role: 'role', id_login: login[0].id_login, id_endereco: db_usuario[0].id_endereco, id_telefone: db_usuario[0].id_telefone}, process.env.TOKEN_SECRET as string);
 
                 return res.json({
                     accessToken
