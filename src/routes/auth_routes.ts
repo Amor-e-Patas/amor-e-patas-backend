@@ -10,6 +10,7 @@ import LoginControllers from '../controllers/login';
 import EspecieControllers from '../controllers/especie'
 import SexoControllers from '../controllers/sexo_animal'
 import PorteController from '../controllers/porte';
+import TemperamentoController from '../controllers/temperamento';
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
@@ -19,6 +20,7 @@ const loginControllers = new LoginControllers();
 const especieControllers = new EspecieControllers();
 const sexoControllers = new SexoControllers();
 const porteControllers = new PorteController();
+const tempControllers = new TemperamentoController();
 
 const routes = express.Router();
 
@@ -77,6 +79,14 @@ routes.get('/porte/:id', porteControllers.show);
 routes.post('/porte', porteControllers.create);
 routes.put('/porte', porteControllers.update);
 routes.delete('/porte/:id', porteControllers.delete);
+
+//Temperamento
+
+routes.get('/temperamentos', tempControllers.index);
+routes.get('/temperamento/:id', tempControllers.show);
+routes.post('/temperamento', tempControllers.create);
+routes.put('/temperamento', tempControllers.update);
+routes.delete('/temperamento/:id', tempControllers.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
