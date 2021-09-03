@@ -7,12 +7,16 @@ import UserControllers from '../controllers/user';
 import TelefoneControllers from '../controllers/telefone';
 import EnderecoControllers from '../controllers/endereco';
 import LoginControllers from '../controllers/login';
+import EspecieControllers from '../controllers/especie'
+import SexoControllers from '../controllers/sexo_animal'
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
 const telefoneControllers = new TelefoneControllers();
 const enderecoControllers = new EnderecoControllers();
 const loginControllers = new LoginControllers();
+const especieControllers = new EspecieControllers();
+const sexoControllers = new SexoControllers();
 
 const routes = express.Router();
 
@@ -47,6 +51,22 @@ routes.get('/login', loginControllers.show);
 routes.post('/login', loginControllers.create);
 routes.put('/login', loginControllers.update);
 routes.delete('/login/:id', loginControllers.delete);
+
+//Espécies
+
+routes.get('/especies', especieControllers.index);
+routes.get('/especie/:id', especieControllers.show);
+routes.post('/especie', especieControllers.create);
+routes.put('/especie', especieControllers.update);
+routes.delete('/especie/:id', especieControllers.delete);
+
+//Sexo
+
+routes.get('/sexos', sexoControllers.index);
+routes.get('/sexo/:id', sexoControllers.show);
+routes.post('/sexo', sexoControllers.create);
+routes.put('/sexo', sexoControllers.update);
+routes.delete('/sexo/:id', sexoControllers.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
