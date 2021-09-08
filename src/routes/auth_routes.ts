@@ -13,6 +13,7 @@ import PorteController from '../controllers/porte';
 import TemperamentoController from '../controllers/temperamento';
 import AnimalController from '../controllers/animal';
 import SociavelController from '../controllers/sociavel';
+import VivenciaController from '../controllers/vivencia';
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
@@ -25,6 +26,7 @@ const porteControllers = new PorteController();
 const tempControllers = new TemperamentoController();
 const animalControllers = new AnimalController();
 const sociavelControllers = new SociavelController();
+const vivenciaController =  new VivenciaController();
 
 const routes = express.Router();
 
@@ -99,6 +101,14 @@ routes.get('/sociavel/:id', sociavelControllers.show);
 routes.post('/sociavel', sociavelControllers.create);
 routes.put('/sociavel', sociavelControllers.update);
 routes.delete('/sociavel/:id', sociavelControllers.delete);
+
+//Vivência
+
+routes.get('/vivencias', vivenciaController.index);
+routes.get('/vivencia/:id', vivenciaController.show);
+routes.post('/vivencia', vivenciaController.create);
+routes.put('/vivencia', vivenciaController.update);
+routes.delete('/vivencia/:id', vivenciaController.delete);
 
 //Animal
 

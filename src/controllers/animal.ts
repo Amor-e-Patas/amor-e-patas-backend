@@ -95,7 +95,8 @@ export default class AnimalController {
                 id_especie,
                 id_sexo,
                 temperamentos,
-                sociaveis
+                sociaveis,
+                vivencias
 
             } = req.body;
 
@@ -115,17 +116,28 @@ export default class AnimalController {
 
             for (const temperamento of temperamentos) {
                 await trx("db_animal_temp").insert(
-                    {id_temperamento: temperamento,
-                    id_animal: id_animal}
-                   );
-            
+                    {
+                        id_temperamento: temperamento,
+                        id_animal: id_animal
+                    }
+                );
             }
             for (const sociavel of sociaveis) {
                 await trx("db_animal_soci").insert(
-                    {id_sociavel: sociavel,
-                    id_animal: id_animal}
-                   );
-                }
+                    {
+                        id_sociavel: sociavel,
+                        id_animal: id_animal
+                    }
+                );
+            }
+            for (const vivencia of vivencias) {
+                await trx("db_animal_vive").insert(
+                    {
+                        id_vivencia: vivencia,
+                        id_animal: id_animal
+                    }
+                );
+            }
 
             await trx.commit();
             return res.status(201).json({
