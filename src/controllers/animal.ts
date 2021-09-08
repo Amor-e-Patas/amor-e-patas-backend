@@ -94,7 +94,8 @@ export default class AnimalController {
                 id_porte,
                 id_especie,
                 id_sexo,
-                temperamentos
+                temperamentos,
+                sociaveis
 
             } = req.body;
 
@@ -117,7 +118,14 @@ export default class AnimalController {
                     {id_temperamento: temperamento,
                     id_animal: id_animal}
                    );
+            
             }
+            for (const sociavel of sociaveis) {
+                await trx("db_animal_soci").insert(
+                    {id_sociavel: sociavel,
+                    id_animal: id_animal}
+                   );
+                }
 
             await trx.commit();
             return res.status(201).json({
