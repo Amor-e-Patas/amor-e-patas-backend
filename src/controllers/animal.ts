@@ -141,7 +141,7 @@ export default class AnimalController {
 
             await trx.commit();
             return res.status(201).json({
-                msg: "Animal cadastrado com sucesso."
+                msg: "Animal cadastrado com sucesso.", id_animal
             });
 
         } catch (err) {

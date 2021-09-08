@@ -14,6 +14,9 @@ import TemperamentoController from '../controllers/temperamento';
 import AnimalController from '../controllers/animal';
 import SociavelController from '../controllers/sociavel';
 import VivenciaController from '../controllers/vivencia';
+import ImgAniControllers from '../controllers/imagem_animal';
+import multer from 'multer';
+import path from 'path';
 
 // Estanciamento dos controllers
 const userControllers = new UserControllers();
@@ -27,8 +30,22 @@ const tempControllers = new TemperamentoController();
 const animalControllers = new AnimalController();
 const sociavelControllers = new SociavelController();
 const vivenciaController =  new VivenciaController();
+const imgAniControllers = new ImgAniControllers();
+
+const imageUpload = multer({
+    //dest: 'images',
+    storage: multer.diskStorage({
+        destination: 'images',
+        filename: (request, file, cb) =>{
+            const fileName = `${Date.now()}-${file.originalname}`;
+
+            cb(null,fileName);
+        },
+    })
+});
 
 const routes = express.Router();
+
 
 routes.get('/', (req: Request, res: Response) => res.status(200).json("Hello world!"));
 
@@ -117,6 +134,13 @@ routes.get('/animal/:id', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal', animalControllers.update);
 routes.delete('/animal/:id', animalControllers.delete);
+
+//Img Animal
+
+routes.get('/imagens', imgAniControllers.index);
+routes.post('/imagem', imageUpload.array('image'), imgAniControllers.create);
+routes.put('/imagem', imgAniControllers.update);
+routes.delete('/imagem/:filename', imgAniControllers.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;

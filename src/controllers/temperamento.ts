@@ -55,7 +55,7 @@ export default class TemperamentoController {
         descricao
       } = req.body;
 
-      const db_login = await trx('db_temperamento').insert({id_temperamento, descricao});
+      const db_temperamento = await trx('db_temperamento').insert({id_temperamento, descricao});
 
       await trx.commit();
       return res.status(201).json({
