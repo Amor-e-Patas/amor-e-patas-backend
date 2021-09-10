@@ -4,11 +4,10 @@ import db from '../database/';
 export default class AnimalController {
     async index(req: Request, res: Response) {
         try {
-            const animal = await db('db_animal')
-                .join("db_usuario", "db_animal.id_usuario", "db_usuario.id_usuario")
+            const animals = await db('db_animal')
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
-                .join("db_sexo", "db_animal.id_sexo", "db_sexo.id_sexo")
+                .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
 
                 .select(
                     'db_animal.id_animal',
@@ -21,9 +20,25 @@ export default class AnimalController {
                     'db_animal.id_usuario',
                     'db_animal.id_porte',
                     'db_animal.id_especie',
-                    'db_animal.id_sexo'
-                );
-            return res.status(200).json(animal);
+                    'db_animal.id_sexo',
+                    'db_porte.tipo_porte',
+                    'db_especie.nome_esp',
+                    'db_sexo_animal.tipo_sexo');
+            console.log(animals);
+
+            for (const animal of animals) {
+                const imagens = await db('db_imagem_animal')
+
+                    .select(
+
+                        'db_imagem_animal.filename'
+                    )
+                    .where('db_imagem_animal.id_animal', animal.id_animal);
+
+                animal.images = imagens;
+            }
+
+            return res.status(200).json(animals);
 
         } catch (err) {
             console.log(err);
@@ -34,7 +49,7 @@ export default class AnimalController {
     }
 
     async show(req: Request, res: Response) {
-        //const { id } = req.params;
+        const { id_animal } = req.params;
 
         const {
             //role,
@@ -47,7 +62,8 @@ export default class AnimalController {
                 .join("db_usuario", "db_animal.id_usuario", "db_usuario.id_usuario")
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
-                .join("db_sexo", "db_animal.id_sexo", "db_sexo.id_sexo")
+                .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
+                //.join("db_imagem_animal", "db_animal.id_animal", "db_imagem_animal.id_animal")
 
                 .select(
                     'db_animal.id_animal',
@@ -60,10 +76,27 @@ export default class AnimalController {
                     'db_animal.id_usuario',
                     'db_animal.id_porte',
                     'db_animal.id_especie',
-                    'db_animal.id_sexo'
+                    'db_animal.id_sexo',
+                    'db_usuario.nome_usu',
+                    'db_porte.tipo_porte',
+                    'db_especie.nome_esp',
+                    'db_sexo_animal.tipo_sexo'
+                    //'db_imagem_animal.filename'
                 )
-                .where('db_animal.id_usuario', id_usuario)
-                ;
+                .where('db_animal.id_animal', id_animal);
+
+            const imagens = await db('db_imagem_animal')
+
+                .select(
+
+                    'db_imagem_animal.filename'
+                )
+                .where('db_imagem_animal.id_animal', id_animal);
+
+            animal[0].images = imagens;
+
+            console.log(id_usuario);
+
             return res.status(200).json(animal[0]);
         } catch (err) {
             console.log(err);
@@ -186,7 +219,7 @@ export default class AnimalController {
                 data_nasc: data_nasc,
                 desaparecido: desaparecido
             }
-            console.log(id_usuario);
+            console.log(id_usuario, "id_usu");
 
             await trx('db_animal').update(animal).where('id_usuario', id_usuario);
 
