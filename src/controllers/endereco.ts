@@ -26,12 +26,9 @@ export default class EnderecoControllers {
 
   async show(req: Request, res: Response) {
 
-    //const { id } = req.params;
 
     const {
-      //role,
       id_endereco
-     // id_login
     } = req.body.user;
 
     try {
@@ -64,13 +61,10 @@ export default class EnderecoControllers {
     try {
 
       const {
-        //role,
         id_endereco
-       // id_login
       } = req.body.user;
 
       const {
-        //id_endereco,
         cep,
         bairro,
         endereco,
@@ -101,15 +95,10 @@ export default class EnderecoControllers {
     try {
 
       const {
-        //role,
         id_endereco
-       // id_login
       } = req.body.user;
 
-      console.log(id_endereco);
-
       const {
-        //id_endereco,
         cep,
         bairro,
         endereco,
@@ -120,7 +109,6 @@ export default class EnderecoControllers {
       } = req.body;
       
       const db_endereco = {
-        //id_endereco: id_endereco,
         cep: cep,
         bairro: bairro,
         endereco: endereco,

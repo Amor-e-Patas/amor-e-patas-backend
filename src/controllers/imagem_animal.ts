@@ -26,23 +26,7 @@ export default class ImgAniControllers {
 
         const { filename } = req.params;
 
-        /*const {
-          //role,
-          id_endereco
-         // id_login
-        } = req.body.user;*/
-
         try {
-            /*const imagem = await db('db_imagem_animal')
-                .select(
-                    'db_imagem_animal.id_imagem',
-                    'db_imagem_animal.filename',
-                    'db_imagem_animal.filepath',
-                    'db_imagem_animal.mimetype',
-                    'db_imagem_animal.size'
-                )
-                .where('db_imagem_animal.filename', filename)
-                ;*/
                 const { filename } = req.params;
                 const dirname = path.resolve();
                 const fullfilepath = path.join(dirname, 'images/' + filename);
@@ -62,7 +46,7 @@ export default class ImgAniControllers {
         try {
 
             const files = req.files as Array<Express.Multer.File>;
-            console.log(req.body.id_animal);
+
             for (const file of files) {
                 const db_imagem_animal = await trx('db_imagem_animal').insert({ filename: file.filename, filepath: file.path, mimetype: file.mimetype, size: file.size, id_animal: req.body.id_animal });
             }
@@ -85,12 +69,6 @@ export default class ImgAniControllers {
         const trx = await trxProvider();
 
         try {
-
-            /*const {
-              //role,
-              id_endereco
-             // id_login
-            } = req.body.user;*/
 
             const {
                 id_imagem,
