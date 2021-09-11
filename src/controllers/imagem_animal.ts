@@ -48,7 +48,7 @@ export default class ImgAniControllers {
             const files = req.files as Array<Express.Multer.File>;
 
             for (const file of files) {
-                const db_imagem_animal = await trx('db_imagem_animal').insert({ filename: file.filename, filepath: file.path, mimetype: file.mimetype, size: file.size, id_animal: req.body.id_animal });
+                const db_imagem_animal = await trx('db_imagem_animal').insert({ filename: file.filename, filepath: file.path.replace("\\", "/"), mimetype: file.mimetype, size: file.size, id_animal: req.body.id_animal });
             }
 
             await trx.commit();

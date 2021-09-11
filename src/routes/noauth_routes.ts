@@ -19,7 +19,7 @@ routes.get('/', (req: Request, res: Response) => res.status(200).json("Hello wor
 //Users
 
 routes.post('/user', userControllers.create);
-routes.get('/imagem/:filename', imgAniControllers.show);
+routes.get('/images/:filename', imgAniControllers.show);
 
 
 
