@@ -191,6 +191,8 @@ export default class AnimalController {
 
         try {
 
+            const { id_animal } = req.params;
+
             const {
                 id_usuario
             } = req.body.user;
@@ -203,9 +205,9 @@ export default class AnimalController {
                 caracteristica_animal,
                 data_nasc,
                 desaparecido,
-                //id_porte,
-                //id_especie,
-                //id_sexo
+                id_porte,
+                id_especie,
+                id_sexo
             } = req.body;
 
 
@@ -217,11 +219,14 @@ export default class AnimalController {
                 cor: cor,
                 caracteristica_animal: caracteristica_animal,
                 data_nasc: data_nasc,
-                desaparecido: desaparecido
+                desaparecido: desaparecido,
+                id_porte: id_porte,
+                id_especie: id_especie,
+                id_sexo: id_sexo
             }
             console.log(id_usuario, "id_usu");
 
-            await trx('db_animal').update(animal).where('id_usuario', id_usuario);
+            await trx('db_animal').update(animal).where('id_animal', id_animal);
 
             await trx.commit();
 

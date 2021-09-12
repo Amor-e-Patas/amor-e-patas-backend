@@ -132,7 +132,7 @@ routes.delete('/vivencia/:id', vivenciaController.delete);
 routes.get('/animais', animalControllers.index);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
-routes.put('/animal', animalControllers.update);
+routes.put('/animal/:id_animal', animalControllers.update);
 routes.delete('/animal/:id', animalControllers.delete);
 
 //Img Animal
