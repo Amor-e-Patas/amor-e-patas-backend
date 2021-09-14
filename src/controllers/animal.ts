@@ -95,6 +95,16 @@ export default class AnimalController {
 
             animal[0].images = imagens;
 
+            const temperamentos = await db('db_animal_temp')
+
+                .select(
+
+                    'db_animal_temp.id_temperamento'
+                )
+                .where('db_animal_temp.id_animal', id_animal);
+
+            animal[0].temperamentos = temperamentos;
+
             console.log(id_usuario);
 
             return res.status(200).json(animal[0]);

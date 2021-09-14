@@ -70,6 +70,8 @@ export default class ImgAniControllers {
 
         try {
 
+            const { id_animal } = req.params;
+
             const {
                 id_imagem,
                 filename,
@@ -86,7 +88,7 @@ export default class ImgAniControllers {
                 size: size
             }
 
-            await trx('db_imagem_animal').update(db_imagem_animal).where('id_imagem', id_imagem);
+            await trx('db_imagem_animal').update(db_imagem_animal).where('id_animal', id_animal);
 
             await trx.commit();
 
