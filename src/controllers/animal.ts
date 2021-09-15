@@ -96,10 +96,11 @@ export default class AnimalController {
             animal[0].images = imagens;
 
             const temperamentos = await db('db_animal_temp')
-
+            .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
                 .select(
 
-                    'db_animal_temp.id_temperamento'
+                    'db_animal_temp.id_temperamento',
+                    'db_temperamento.descricao'
                 )
                 .where('db_animal_temp.id_animal', id_animal);
 
