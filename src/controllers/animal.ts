@@ -89,7 +89,7 @@ export default class AnimalController {
 
                 .select(
 
-                    'db_imagem_animal.filename'
+                    'db_imagem_animal.filepath'
                 )
                 .where('db_imagem_animal.id_animal', id_animal);
 
