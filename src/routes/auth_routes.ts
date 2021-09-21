@@ -133,7 +133,7 @@ routes.get('/animais', animalControllers.index);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal/:id_animal', animalControllers.update);
-routes.delete('/animal/:id', animalControllers.delete);
+routes.delete('/animal/:id_animal', animalControllers.delete);
 
 //Img Animal
 

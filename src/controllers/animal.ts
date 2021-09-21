@@ -218,9 +218,10 @@ export default class AnimalController {
                 desaparecido,
                 id_porte,
                 id_especie,
-                id_sexo
+                id_sexo,
+                selectTemps
             } = req.body;
-
+            console.log()
 
 
             const animal = {
@@ -238,7 +239,14 @@ export default class AnimalController {
             console.log(id_usuario, "id_usu");
 
             await trx('db_animal').update(animal).where('id_animal', id_animal);
-
+            await trx('db_animal_temp').delete().where('id_animal', id_animal);
+            for (const id_temperamento of selectTemps) {
+                await trx('db_animal_temp').insert(
+                    {
+                        id_temperamento, id_animal
+                    }
+                )
+            }
             await trx.commit();
 
             return res.status(201).json({
@@ -257,9 +265,14 @@ export default class AnimalController {
     async delete(req: Request, res: Response) {
         const trxProvider = await db.transactionProvider();
         const trx = await trxProvider();
+        const { id_animal } = req.params;
         try {
-            const { id } = req.body.user;
-            await trx('db_animal').delete().where('id_usuario', id);
+           
+            await trx('db_animal_temp').delete().where('id_animal', id_animal);
+            await trx('db_animal_soci').delete().where('id_animal', id_animal);
+            await trx('db_animal_vive').delete().where('id_animal', id_animal);
+            await trx('db_imagem_animal').delete().where('id_animal', id_animal);
+            await trx('db_animal').delete().where('id_animal', id_animal);
             await trx.commit();
 
             return res.status(201).json({
@@ -267,8 +280,10 @@ export default class AnimalController {
             });
         } catch (error) {
             await trx.rollback();
+            console.log(error)
             return res.status(400).json({
                 error: 'Erro ao remover animal.'
+                
             });
         }
     }
