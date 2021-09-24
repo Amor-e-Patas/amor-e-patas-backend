@@ -4,6 +4,11 @@ import db from '../database/';
 export default class AnimalController {
     async index(req: Request, res: Response) {
         try {
+            const {
+                //role,
+                id_usuario
+                // id_login
+            } = req.body.user;
             const animals = await db('db_animal')
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
@@ -23,7 +28,8 @@ export default class AnimalController {
                     'db_animal.id_sexo',
                     'db_porte.tipo_porte',
                     'db_especie.nome_esp',
-                    'db_sexo_animal.tipo_sexo');
+                    'db_sexo_animal.tipo_sexo')
+                .where('db_animal.id_usuario', id_usuario);
             console.log(animals);
 
             for (const animal of animals) {
@@ -58,6 +64,7 @@ export default class AnimalController {
         } = req.body.user;
 
         try {
+
             const animal = await db('db_animal')
                 .join("db_usuario", "db_animal.id_usuario", "db_usuario.id_usuario")
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
@@ -105,6 +112,28 @@ export default class AnimalController {
                 .where('db_animal_temp.id_animal', id_animal);
 
             animal[0].temperamentos = temperamentos;
+
+            const sociaveis = await db('db_animal_soci')
+            .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
+                .select(
+
+                    'db_animal_soci.id_sociavel',
+                    'db_sociavel.descricao'
+                )
+                .where('db_animal_soci.id_animal', id_animal);
+
+            animal[0].sociaveis = sociaveis;
+
+            const vivencias = await db('db_animal_vive')
+            .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
+                .select(
+
+                    'db_animal_vive.id_vivencia',
+                    'db_vivencia.descricao'
+                )
+                .where('db_animal_vive.id_animal', id_animal);
+
+            animal[0].vivencias = vivencias;
 
             console.log(id_usuario);
 
@@ -219,7 +248,9 @@ export default class AnimalController {
                 id_porte,
                 id_especie,
                 id_sexo,
-                selectTemps
+                selectTemps,
+                selectVives,
+                selectSocis
             } = req.body;
             console.log()
 
@@ -238,6 +269,8 @@ export default class AnimalController {
             }
             console.log(id_usuario, "id_usu");
 
+            await trx('db_imagem_animal').delete().where('id_animal', id_animal);
+
             await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_temp').delete().where('id_animal', id_animal);
             for (const id_temperamento of selectTemps) {
@@ -247,8 +280,29 @@ export default class AnimalController {
                     }
                 )
             }
-            await trx.commit();
+            
 
+            await trx('db_animal').update(animal).where('id_animal', id_animal);
+            await trx('db_animal_vive').delete().where('id_animal', id_animal);
+            for (const id_vivencia of selectVives) {
+                await trx('db_animal_vive').insert(
+                    {
+                        id_vivencia, id_animal
+                    }
+                )
+            }
+
+            await trx('db_animal').update(animal).where('id_animal', id_animal);
+            await trx('db_animal_soci').delete().where('id_animal', id_animal);
+            for (const id_sociavel of selectSocis) {
+                await trx('db_animal_soci').insert(
+                    {
+                        id_sociavel, id_animal
+                    }
+                )
+            }
+
+            await trx.commit();
             return res.status(201).json({
                 msg: "Animal atualizado com sucesso."
             });
