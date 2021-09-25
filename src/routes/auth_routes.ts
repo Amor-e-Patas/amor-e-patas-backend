@@ -130,6 +130,7 @@ routes.delete('/vivencia/:id', vivenciaController.delete);
 //Animal
 
 routes.get('/animais', animalControllers.index);
+routes.get('/animaisdesaparecidos', animalControllers.indexDesaparecidos);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal/:id_animal', animalControllers.update);
