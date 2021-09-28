@@ -15,6 +15,8 @@ import AnimalController from '../controllers/animal';
 import SociavelController from '../controllers/sociavel';
 import VivenciaController from '../controllers/vivencia';
 import ImgAniControllers from '../controllers/imagem_animal';
+import AssuntoControllers from '../controllers/assunto';
+import PostControllers from '../controllers/post'
 import multer from 'multer';
 import path from 'path';
 
@@ -31,6 +33,8 @@ const animalControllers = new AnimalController();
 const sociavelControllers = new SociavelController();
 const vivenciaController =  new VivenciaController();
 const imgAniControllers = new ImgAniControllers();
+const assuntoControllers = new AssuntoControllers();
+const postControllers = new PostControllers();
 
 const imageUpload = multer({
     //dest: 'images',
@@ -142,6 +146,23 @@ routes.get('/imagens', imgAniControllers.index);
 routes.post('/imagem', imageUpload.array('image'), imgAniControllers.create);
 routes.put('/imagem', imgAniControllers.update);
 routes.delete('/imagem/:filename', imgAniControllers.delete);
+
+//Assunto
+
+routes.get('/assuntos', assuntoControllers.index);
+routes.get('/assunto/:id', assuntoControllers.show);
+routes.post('/assunto', assuntoControllers.create);
+routes.put('/assunto', assuntoControllers.update);
+routes.delete('/assunto/:id', assuntoControllers.delete);
+
+//Post
+
+routes.get('/posts', postControllers.index);
+routes.get('/postsall', postControllers.showAll);
+routes.get('/post/:id_post', postControllers.show);
+routes.post('/post', postControllers.create);
+routes.put('/post/:id_post', postControllers.update);
+routes.delete('/post/:id_post', postControllers.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
