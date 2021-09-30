@@ -16,7 +16,8 @@ import SociavelController from '../controllers/sociavel';
 import VivenciaController from '../controllers/vivencia';
 import ImgAniControllers from '../controllers/imagem_animal';
 import AssuntoControllers from '../controllers/assunto';
-import PostControllers from '../controllers/post'
+import PostControllers from '../controllers/post';
+import ImgPostControllers from '../controllers/imagem_post';
 import multer from 'multer';
 import path from 'path';
 
@@ -35,6 +36,7 @@ const vivenciaController =  new VivenciaController();
 const imgAniControllers = new ImgAniControllers();
 const assuntoControllers = new AssuntoControllers();
 const postControllers = new PostControllers();
+const imgPostControllers = new ImgPostControllers();
 
 const imageUpload = multer({
     //dest: 'images',
@@ -163,6 +165,13 @@ routes.get('/post/:id_post', postControllers.show);
 routes.post('/post', postControllers.create);
 routes.put('/post/:id_post', postControllers.update);
 routes.delete('/post/:id_post', postControllers.delete);
+
+//Img Animal
+
+routes.get('/imagenspost', imgPostControllers.index);
+routes.post('/imagempost', imageUpload.array('image'), imgPostControllers.create);
+routes.put('/imagempost', imgPostControllers.update);
+routes.delete('/imagempost/:filename', imgPostControllers.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
