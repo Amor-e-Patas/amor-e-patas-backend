@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import db from '../database/';
 
-export default class AnimalController {
+export default class PostController {
     async index(req: Request, res: Response) {
         try {
             const {
@@ -9,7 +9,7 @@ export default class AnimalController {
                 id_usuario
                 // id_login
             } = req.body.user;
-            const assuntos = await db('db_post')
+            const posts = await db('db_post')
                 .join("db_usuario", "db_post.id_usuario", "db_usuario.id_usuario")
 
                 .select(
@@ -20,7 +20,7 @@ export default class AnimalController {
                     'db_post.data')
                 .where('db_post.id_usuario', id_usuario)
 
-            for (const assunto of assuntos) {
+            for (const assunto of posts) {
                 const subject = await db('db_post_assunto')
 
                     .select(
@@ -32,7 +32,19 @@ export default class AnimalController {
                     assunto.assunto = subject;
             }
 
-            return res.status(200).json(assuntos);
+            for (const imagem of posts) {
+                const imagens = await db('db_imagem_post')
+
+                    .select(
+
+                        '*'
+                    )
+                    .where('db_imagem_post.id_post', imagem.id_post);
+
+                    imagem.images = imagens;
+            }
+
+            return res.status(200).json(posts);
 
         } catch (err) {
             console.log(err);
@@ -49,17 +61,18 @@ export default class AnimalController {
                 id_usuario
                 // id_login
             } = req.body.user;
-            const assuntos = await db('db_post')
-                .join("db_usuario", "db_post.id_usuario", "db_usuario.id_usuario")
+            const posts = await db('db_post')
+                .join("db_imagem_post", "db_post.id_post", "db_imagem_post.id_post")
 
                 .select(
                     'db_post.id_post',
                     'db_post.titulo',
                     'db_post.corpo',
                     'db_post.autor',
-                    'db_post.data')
+                    'db_post.data',
+                    'db_imagem_post.filepath')
 
-            for (const assunto of assuntos) {
+            for (const assunto of posts) {
                 const subject = await db('db_post_assunto')
 
                     .select(
@@ -71,7 +84,19 @@ export default class AnimalController {
                     assunto.assunto = subject;
             }
 
-            return res.status(200).json(assuntos);
+            for (const imagem of posts) {
+                const imagens = await db('db_imagem_post')
+
+                    .select(
+
+                        '*'
+                    )
+                    .where('db_imagem_post.id_post', imagem.id_post);
+
+                    imagem.images = imagens;
+            }
+
+            return res.status(200).json(posts);
 
         } catch (err) {
             console.log(err);
@@ -102,7 +127,7 @@ export default class AnimalController {
                     'db_post.corpo',
                     'db_post.autor',
                     'db_post.data')
-                    .where('db_post.id_post', id_post)
+                    .where('db_post.id_post', id_post);
 
 
             const assuntos = await db('db_post_assunto')
@@ -115,6 +140,18 @@ export default class AnimalController {
                 .where('db_post_assunto.id_post', id_post);
 
             post[0].assuntos = assuntos;
+
+            for (const imagem of post) {
+                const imagens = await db('db_imagem_post')
+
+                    .select(
+
+                        '*'
+                    )
+                    .where('db_imagem_post.id_post', imagem.id_post);
+
+                    imagem.images = imagens;
+            }
 
             return res.status(200).json(post[0]);
         } catch (err) {
