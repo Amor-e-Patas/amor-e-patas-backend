@@ -18,6 +18,7 @@ import ImgAniControllers from '../controllers/imagem_animal';
 import AssuntoControllers from '../controllers/assunto';
 import PostControllers from '../controllers/post';
 import ImgPostControllers from '../controllers/imagem_post';
+import ComentarioController from '../controllers/comentario';
 import multer from 'multer';
 import path from 'path';
 
@@ -37,6 +38,7 @@ const imgAniControllers = new ImgAniControllers();
 const assuntoControllers = new AssuntoControllers();
 const postControllers = new PostControllers();
 const imgPostControllers = new ImgPostControllers();
+const comentarioController = new ComentarioController();
 
 const imageUpload = multer({
     //dest: 'images',
@@ -172,6 +174,14 @@ routes.get('/imagenspost', imgPostControllers.index);
 routes.post('/imagempost', imageUpload.array('image'), imgPostControllers.create);
 routes.put('/imagempost', imgPostControllers.update);
 routes.delete('/imagempost/:filename', imgPostControllers.delete);
+
+//Comentário
+
+routes.get('/comentarios/:id', comentarioController.index);
+routes.get('/comentario/:id', comentarioController.show);
+routes.post('/comentario', comentarioController.create);
+routes.put('/comentario', comentarioController.update);
+routes.delete('/comentario/:id', comentarioController.delete);
 
 routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
 export default routes;
