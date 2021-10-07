@@ -5,10 +5,10 @@ export default class UsersController {
   async index(req: Request, res: Response) {
     try {
       const users = await db('db_usuario')
-      .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
-      .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
-      .join("db_login", "db_usuario.id_login", "db_login.id_login")
-      
+        .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+        .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
+        .join("db_login", "db_usuario.id_login", "db_login.id_login")
+
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
@@ -42,14 +42,14 @@ export default class UsersController {
     const {
       //role,
       id_usuario
-     // id_login
+      // id_login
     } = req.body.user;
 
     try {
       const users = await db('db_usuario')
-      .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
-      .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
-      .join("db_login", "db_usuario.id_login", "db_login.id_login")
+        .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+        .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
+        .join("db_login", "db_usuario.id_login", "db_login.id_login")
         .select(
           'db_usuario.id_usuario',
           'db_usuario.nome_usu',
@@ -83,18 +83,21 @@ export default class UsersController {
     const trx = await trxProvider();
 
     try {
+      const login = req.body.login;
+      login.role = "user";
+      
       const [id_login] = await trx("db_login").insert(
-        req.body.login
-       ).returning('id_login');
+        login
+      ).returning('id_login');
 
-       const [id_endereco] = await trx("db_endereco").insert(
+      const [id_endereco] = await trx("db_endereco").insert(
         req.body.endereco
-       ).returning('id_endereco');
+      ).returning('id_endereco');
 
-       const [id_telefone] = await trx("db_telefone").insert(
+      const [id_telefone] = await trx("db_telefone").insert(
         req.body.telefone
-       ).returning('id_telefone');
-       
+      ).returning('id_telefone');
+
       const {
         nome_usu,
         cpf,
@@ -109,12 +112,13 @@ export default class UsersController {
         genero,
         id_login,
         id_endereco,
-        id_telefone}
+        id_telefone
+      }
       );
 
       await trx.commit();
       return res.status(201).json({
-        msg : "Usuário cadastrado com sucesso."
+        msg: "Usuário cadastrado com sucesso."
       });
 
     } catch (err) {
@@ -134,7 +138,7 @@ export default class UsersController {
       const {
         //role,
         id_usuario
-       // id_login
+        // id_login
       } = req.body.user;
 
 
@@ -145,8 +149,8 @@ export default class UsersController {
         data_nasc,
         genero
       } = req.body;
-      
-     
+
+
 
       const user = {
         //id_usuario: id_usuario,
@@ -156,13 +160,13 @@ export default class UsersController {
         genero: genero
       }
       console.log(id_usuario);
-      
+
       await trx('db_usuario').update(user).where('id_usuario', id_usuario);
 
       await trx.commit();
 
       return res.status(201).json({
-        msg : "Usuário atualizado com sucesso."
+        msg: "Usuário atualizado com sucesso."
       });
 
     } catch (error) {
@@ -179,11 +183,11 @@ export default class UsersController {
     const trx = await trxProvider();
     try {
       const { id } = req.params;
-      await trx('db_usuario').delete().where('id_usuario',id);
+      await trx('db_usuario').delete().where('id_usuario', id);
       await trx.commit();
 
       return res.status(201).json({
-        msg : "Usuário excluído com sucesso."
+        msg: "Usuário excluído com sucesso."
       });
     } catch (error) {
       await trx.rollback();

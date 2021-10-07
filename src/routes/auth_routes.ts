@@ -164,9 +164,6 @@ routes.delete('/assunto/:id', assuntoControllers.delete);
 routes.get('/posts', postControllers.index);
 routes.get('/postsall', postControllers.showAll);
 routes.get('/post/:id_post', postControllers.show);
-routes.post('/post', postControllers.create);
-routes.put('/post/:id_post', postControllers.update);
-routes.delete('/post/:id_post', postControllers.delete);
 
 //Img Animal
 

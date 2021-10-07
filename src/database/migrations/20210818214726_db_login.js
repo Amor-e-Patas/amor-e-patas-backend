@@ -5,7 +5,7 @@ exports.up = function (knex) {
 			table.increments("id_login");
 			table.string("email", 100).notNullable().unique();
 			table.string("senha", 45);
-			
+			table.string("role", 50);
 		})
 
 };
