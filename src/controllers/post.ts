@@ -243,17 +243,18 @@ export default class PostController {
                 data: data
             }
 
-            await trx('db_post_assunto').delete().where('id_post', id_post);
+            //await trx('db_post_assunto').delete().where('id_post', id_post);
+            await trx('db_imagem_post').delete().where('id_post', id_post);
 
             await trx('db_post').update(post).where('id_post', id_post);
+            await trx('db_post_assunto').delete().where('id_post', id_post);
             for (const id_assunto of assuntos) {
                 await trx('db_post_assunto').insert(
                     {
                         id_assunto, id_post
                     }
                 )
-            }
-            
+            }        
 
             await trx.commit();
             return res.status(201).json({
@@ -276,7 +277,8 @@ export default class PostController {
         try {
            
             await trx('db_post_assunto').delete().where('id_post', id_post);
-            await trx('db_post').delete().where('id_post', id_post);
+            await trx('db_post').delete().where('id_post', id_post);  
+            await trx('db_imagem_post').delete().where('id_post', id_post);
             await trx.commit();
 
             return res.status(201).json({
