@@ -26,17 +26,21 @@ export default class ComentarioController {
 
     async show(req: Request, res: Response) {
         const { id } = req.params;
-
+        const { id_usuario, role } = req.body.user
         try {
+
             const comentario = await db('db_comentario')
                 .join("db_usuario", "db_comentario.id_usuario", "db_usuario.id_usuario")
                 .select(
                     'db_comentario.*',
-                    'db_usuario.nome_usu'
+                    'db_usuario.nome_usu',
+                    'db_comentario.id_usuario'
                 )
-                .where('db_comentario.id_comentario', id)
-                ;
-            return res.status(200).json(comentario[0]);
+                .where('db_comentario.id_comentario', id);
+            if (id_usuario == comentario[0].id_usuario || role == "admin") {
+                return res.status(200).json(comentario[0]);
+            }
+            return res.status(401).send();
         } catch (err) {
             console.log(err);
             return res.status(400).json({

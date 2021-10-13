@@ -153,17 +153,10 @@ routes.delete('/imagem/:filename', imgAniControllers.delete);
 
 //Assunto
 
-routes.get('/assuntos', assuntoControllers.index);
-routes.get('/assunto/:id', assuntoControllers.show);
 routes.post('/assunto', assuntoControllers.create);
 routes.put('/assunto', assuntoControllers.update);
 routes.delete('/assunto/:id', assuntoControllers.delete);
 
-//Post
-
-routes.get('/posts', postControllers.index);
-routes.get('/postsall', postControllers.showAll);
-routes.get('/post/:id_post', postControllers.show);
 
 //Img Animal
 
@@ -174,11 +167,9 @@ routes.delete('/imagempost/:filename', imgPostControllers.delete);
 
 //Comentário
 
-routes.get('/comentarios/:id', comentarioController.index);
-routes.get('/comentario/:id', comentarioController.show);
 routes.post('/comentario', comentarioController.create);
 routes.put('/comentario', comentarioController.update);
 routes.delete('/comentario/:id', comentarioController.delete);
 
-routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).send());
+routes.post("/auth/verifytoken", (req: Request, res: Response) => res.status(200).json(req.body.user));
 export default routes;

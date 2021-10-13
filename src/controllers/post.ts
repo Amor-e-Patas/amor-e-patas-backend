@@ -56,11 +56,7 @@ export default class PostController {
 
     async showAll(req: Request, res: Response) {
         try {
-            const {
-                //role,
-                id_usuario
-                // id_login
-            } = req.body.user;
+            
             const posts = await db('db_post')
                 .join("db_imagem_post", "db_post.id_post", "db_imagem_post.id_post")
 
@@ -109,12 +105,6 @@ export default class PostController {
 
     async show(req: Request, res: Response) {
         const { id_post } = req.params;
-
-        const {
-            //role,
-            id_usuario
-            // id_login
-        } = req.body.user;
 
         try {
 
@@ -245,7 +235,6 @@ export default class PostController {
 
             //await trx('db_post_assunto').delete().where('id_post', id_post);
             await trx('db_imagem_post').delete().where('id_post', id_post);
-
             await trx('db_post').update(post).where('id_post', id_post);
             await trx('db_post_assunto').delete().where('id_post', id_post);
             for (const id_assunto of assuntos) {
@@ -275,12 +264,13 @@ export default class PostController {
         const trx = await trxProvider();
         const { id_post } = req.params;
         try {
-           
-            await trx('db_post_assunto').delete().where('id_post', id_post);
-            await trx('db_post').delete().where('id_post', id_post);  
-            await trx('db_imagem_post').delete().where('id_post', id_post);
-            await trx.commit();
 
+            await trx('db_imagem_post').delete().where('id_post', id_post);
+            await trx('db_post_assunto').delete().where('id_post', id_post);
+            await trx('db_comentario').delete().where('id_post', id_post);
+            await trx('db_post').delete().where('id_post', id_post);  
+            
+            await trx.commit();
             return res.status(201).json({
                 msg: "Post excluído com sucesso."
             });
