@@ -115,11 +115,7 @@ export default class AnimalController {
 
     async indexAprovadosNormais(req: Request, res: Response) {
         try {
-            const {
-                //role,
-                id_usuario
-                // id_login
-            } = req.body.user;
+            
             const animals = await db('db_animal')
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
@@ -727,6 +723,47 @@ export default class AnimalController {
             });
         }
     }
+
+    async updateStatus(req: Request, res: Response) {
+        const trxProvider = await db.transactionProvider();
+        const trx = await trxProvider();
+
+        try {
+
+            const { id_animal } = req.params;
+
+            const {
+                id_usuario
+            } = req.body.user;
+
+
+            const {
+                id_status
+                
+            } = req.body;
+            console.log('hsdjsdk')
+
+            await trx('db_animal').update({id_status}).where('id_animal', id_animal);
+
+            const animal = {
+                id_status: id_status
+            }
+            
+            
+            await trx.commit();
+            return res.status(201).json({
+                msg: "Animal atualizado com sucesso."
+            });
+
+        } catch (error) {
+            console.log(error);
+            await trx.rollback();
+            return res.status(400).json({
+                error: 'Erro ao atualizar animal.'
+            });
+        }
+    }
+
     async update(req: Request, res: Response) {
         const trxProvider = await db.transactionProvider();
         const trx = await trxProvider();

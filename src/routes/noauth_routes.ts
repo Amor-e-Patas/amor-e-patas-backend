@@ -4,6 +4,7 @@ import ImgAniControllers from '../controllers/imagem_animal';
 import PostControllers from '../controllers/post';
 import AssuntoControllers from '../controllers/assunto';
 import ComentarioController from '../controllers/comentario';
+import AnimalController from '../controllers/animal';
 
 // Imports dos controllers
 import UserControllers from '../controllers/user';
@@ -14,6 +15,7 @@ const imgAniControllers = new ImgAniControllers();
 const postControllers = new PostControllers();
 const assuntoControllers = new AssuntoControllers();
 const comentarioController = new ComentarioController();
+const animalControllers = new AnimalController();
 
 const routes = express.Router();
 
@@ -41,5 +43,10 @@ routes.get('/assunto/:id', assuntoControllers.show);
 
 routes.get('/comentarios/:id', comentarioController.index);
 routes.get('/comentario/:id', comentarioController.show);
+
+//Animais
+
+
+routes.get('/aniaprovnormais', animalControllers.indexAprovadosNormais);
 
 export default routes;
