@@ -139,6 +139,14 @@ routes.delete('/vivencia/:id', vivenciaController.delete);
 
 routes.get('/animais', animalControllers.index);
 routes.get('/animaisdesaparecidos', animalControllers.indexDesaparecidos);
+routes.get('/aniaprovnormais', animalControllers.indexAprovadosNormais);
+routes.get('/anisaprovdesaparecidos', animalControllers.indexAprovadosDesaparecidos);
+routes.get('/anireprovnormais', animalControllers.indexReprovadosNormais);
+routes.get('/anireprovdesaparecidos', animalControllers.indexReprovadosDesaparecidos);
+routes.get('/anisanalisenormais', animalControllers.indexEmAnaliseNormais);
+routes.get('/anianalisedesaparecidos', animalControllers.indexEmAnaliseDesaparecidos);
+routes.get('/animaisdesaparecidos', animalControllers.indexAllDesaparecidos);
+routes.get('/animaisaprovados', animalControllers.indexAprovados);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal/:id_animal', animalControllers.update);
