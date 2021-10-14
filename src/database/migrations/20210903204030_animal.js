@@ -16,6 +16,8 @@ exports.up = function (knex) {
 			table.foreign("id_especie").references("db_especie.id_especie");
             table.integer("id_sexo").unsigned();
 			table.foreign("id_sexo").references("db_sexo_animal.id_sexo");
+			table.integer("id_status").unsigned();
+			table.foreign("id_status").references("db_status.id_status");
 		})
 
 };
