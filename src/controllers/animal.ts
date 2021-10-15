@@ -567,7 +567,8 @@ export default class AnimalController {
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
                 .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
                 .join("db_status", "db_animal.id_status", "db_status.id_status")
-                //.join("db_imagem_animal", "db_animal.id_animal", "db_imagem_animal.id_animal")
+                .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+                .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
 
                 .select(
                     'db_animal.id_animal',
@@ -585,7 +586,11 @@ export default class AnimalController {
                     'db_porte.tipo_porte',
                     'db_especie.nome_esp',
                     'db_sexo_animal.tipo_sexo',
-                    'db_status.id_status')
+                    'db_status.id_status',
+                    'db_usuario.nome_usu',
+                    'db_endereco.estado',
+                    'db_endereco.cidade',
+                    'db_telefone.num_telefone')
                 .where('db_animal.id_animal', id_animal);
 
             const imagens = await db('db_imagem_animal')
