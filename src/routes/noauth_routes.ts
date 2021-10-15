@@ -46,7 +46,8 @@ routes.get('/comentario/:id', comentarioController.show);
 
 //Animais
 
-
+//animais
 routes.get('/aniaprovnormais', animalControllers.indexAprovadosNormais);
+routes.get('/animalindex/:id_animal', animalControllers.showIndex);
 
 export default routes;

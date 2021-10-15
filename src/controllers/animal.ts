@@ -647,6 +647,95 @@ export default class AnimalController {
         }
     }
 
+    async showIndex(req: Request, res: Response) {
+        const { id_animal } = req.params;
+
+        try {
+
+            const animal = await db('db_animal')
+                .join("db_usuario", "db_animal.id_usuario", "db_usuario.id_usuario")
+                .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
+                .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
+                .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
+                .join("db_status", "db_animal.id_status", "db_status.id_status")
+                .join("db_endereco", "db_usuario.id_endereco", "db_endereco.id_endereco")
+                .join("db_telefone", "db_usuario.id_telefone", "db_telefone.id_telefone")
+
+                .select(
+                    'db_animal.id_animal',
+                    'db_animal.nome_ani',
+                    'db_animal.idade',
+                    'db_animal.cor',
+                    'db_animal.caracteristica_animal',
+                    'db_animal.data_nasc',
+                    'db_animal.desaparecido',
+                    'db_animal.id_usuario',
+                    'db_animal.id_porte',
+                    'db_animal.id_especie',
+                    'db_animal.id_sexo',
+                    'db_usuario.nome_usu',
+                    'db_porte.tipo_porte',
+                    'db_especie.nome_esp',
+                    'db_sexo_animal.tipo_sexo',
+                    'db_status.id_status',
+                    'db_usuario.nome_usu',
+                    'db_endereco.estado',
+                    'db_endereco.cidade',
+                    'db_telefone.num_telefone')
+                .where('db_animal.id_animal', id_animal);
+
+            const imagens = await db('db_imagem_animal')
+
+                .select(
+
+                    'db_imagem_animal.filepath'
+                )
+                .where('db_imagem_animal.id_animal', id_animal);
+
+            animal[0].images = imagens;
+
+            const temperamentos = await db('db_animal_temp')
+            .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
+                .select(
+
+                    'db_animal_temp.id_temperamento',
+                    'db_temperamento.descricao'
+                )
+                .where('db_animal_temp.id_animal', id_animal);
+
+            animal[0].temperamentos = temperamentos;
+
+            const sociaveis = await db('db_animal_soci')
+            .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
+                .select(
+
+                    'db_animal_soci.id_sociavel',
+                    'db_sociavel.descricao'
+                )
+                .where('db_animal_soci.id_animal', id_animal);
+
+            animal[0].sociaveis = sociaveis;
+
+            const vivencias = await db('db_animal_vive')
+            .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
+                .select(
+
+                    'db_animal_vive.id_vivencia',
+                    'db_vivencia.descricao'
+                )
+                .where('db_animal_vive.id_animal', id_animal);
+
+            animal[0].vivencias = vivencias;
+
+            return res.status(200).json(animal[0]);
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: 'Houve um erro ao listar o animal.'
+            });
+        }
+    }
+
     async create(req: Request, res: Response) {
         const trxProvider = await db.transactionProvider();
         const trx = await trxProvider();
