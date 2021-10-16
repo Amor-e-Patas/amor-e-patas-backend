@@ -113,7 +113,6 @@ routes.delete('/porte/:id', porteControllers.delete);
 
 //Temperamento
 
-routes.get('/temperamentos', tempControllers.index);
 routes.get('/temperamento/:id', tempControllers.show);
 routes.post('/temperamento', tempControllers.create);
 routes.put('/temperamento', tempControllers.update);
@@ -121,7 +120,6 @@ routes.delete('/temperamento/:id', tempControllers.delete);
 
 //Sociabilidade
 
-routes.get('/sociaveis', sociavelControllers.index);
 routes.get('/sociavel/:id', sociavelControllers.show);
 routes.post('/sociavel', sociavelControllers.create);
 routes.put('/sociavel', sociavelControllers.update);
@@ -129,7 +127,6 @@ routes.delete('/sociavel/:id', sociavelControllers.delete);
 
 //Vivência
 
-routes.get('/vivencias', vivenciaController.index);
 routes.get('/vivencia/:id', vivenciaController.show);
 routes.post('/vivencia', vivenciaController.create);
 routes.put('/vivencia', vivenciaController.update);
@@ -146,6 +143,8 @@ routes.get('/anireprovdesaparecidos', animalControllers.indexReprovadosDesaparec
 routes.get('/anisanalisenormais', animalControllers.indexEmAnaliseNormais);
 routes.get('/anianalisedesaparecidos', animalControllers.indexEmAnaliseDesaparecidos);
 routes.get('/animaisdesaparecidos', animalControllers.indexAllDesaparecidos);
+routes.get('/animaisnegados', animalControllers.indexNegados);
+routes.get('/animaisanalise', animalControllers.indexEmAnalise);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal/:id_animal', animalControllers.update);

@@ -5,6 +5,9 @@ import PostControllers from '../controllers/post';
 import AssuntoControllers from '../controllers/assunto';
 import ComentarioController from '../controllers/comentario';
 import AnimalController from '../controllers/animal';
+import SociavelController from '../controllers/sociavel';
+import VivenciaController from '../controllers/vivencia';
+import TemperamentoController from '../controllers/temperamento';
 
 // Imports dos controllers
 import UserControllers from '../controllers/user';
@@ -16,6 +19,9 @@ const postControllers = new PostControllers();
 const assuntoControllers = new AssuntoControllers();
 const comentarioController = new ComentarioController();
 const animalControllers = new AnimalController();
+const sociavelControllers = new SociavelController();
+const vivenciaController =  new VivenciaController();
+const tempControllers = new TemperamentoController();
 
 const routes = express.Router();
 
@@ -45,9 +51,19 @@ routes.get('/comentarios/:id', comentarioController.index);
 routes.get('/comentario/:id', comentarioController.show);
 
 //Animais
-
-//animais
 routes.get('/aniaprovnormais', animalControllers.indexAprovadosNormais);
 routes.get('/animalindex/:id_animal', animalControllers.showIndex);
+
+//Temperamentos
+
+routes.get('/temperamentos', tempControllers.index);
+
+//Sociabilidade
+
+routes.get('/sociaveis', sociavelControllers.index);
+
+//Vivencia
+
+routes.get('/vivencias', vivenciaController.index);
 
 export default routes;
