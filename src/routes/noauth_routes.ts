@@ -53,6 +53,7 @@ routes.get('/comentario/:id', comentarioController.show);
 //Animais
 routes.get('/aniaprovnormais', animalControllers.indexAprovadosNormais);
 routes.get('/animalindex/:id_animal', animalControllers.showIndex);
+routes.get('/anisaprovdesaparecidos', animalControllers.indexAprovadosDesaparecidos);
 
 //Temperamentos
 
