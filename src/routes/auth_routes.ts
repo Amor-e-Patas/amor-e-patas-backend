@@ -145,6 +145,7 @@ routes.get('/animalreprovdesa', animalControllers.indexDesaparecidosDesa);
 routes.get('/animaisdesaparecidosall', animalControllers.indexAllDesaparecidos);
 routes.get('/animaisnegados', animalControllers.indexNegados);
 routes.get('/animaisanalise', animalControllers.indexEmAnalise);
+routes.get('/animaisanalise2', animalControllers.indexEmAnalise2);
 routes.get('/animal/:id_animal', animalControllers.show);
 routes.post('/animal', animalControllers.create);
 routes.put('/animal/:id_animal', animalControllers.update);

@@ -33,7 +33,6 @@ export default class AnimalController {
                     'db_status.descricao')
                 .where('db_animal.id_usuario', id_usuario)
                 .where('db_animal.desaparecido', "N");
-            console.log(animals);
 
             for (const animal of animals) {
                 const imagens = await db('db_imagem_animal')
@@ -558,7 +557,7 @@ export default class AnimalController {
                 .where('db_animal.id_usuario', id_usuario)
                 .where('db_animal.desaparecido', "S")
                 .where('db_status.id_status', "1");
-            console.log(animals);
+            console.log(animals, "animais desaparecidos");
 
             for (const animal of animals) {
                 const imagens = await db('db_imagem_animal')
@@ -639,6 +638,61 @@ export default class AnimalController {
     }
 
     async indexEmAnalise(req: Request, res: Response) {
+        try {
+            const {
+                //role,
+                id_usuario
+                // id_login
+            } = req.body.user;
+            const animals = await db('db_animal')
+                .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
+                .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
+                .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
+                .join("db_status", "db_animal.id_status", "db_status.id_status")
+
+                .select(
+                    'db_animal.id_animal',
+                    'db_animal.nome_ani',
+                    'db_animal.idade',
+                    'db_animal.cor',
+                    'db_animal.caracteristica_animal',
+                    'db_animal.data_nasc',
+                    'db_animal.desaparecido',
+                    'db_animal.id_usuario',
+                    'db_animal.id_porte',
+                    'db_animal.id_especie',
+                    'db_animal.id_sexo',
+                    'db_porte.tipo_porte',
+                    'db_especie.nome_esp',
+                    'db_sexo_animal.tipo_sexo',
+                    'db_status.id_status')
+                .where('db_animal.desaparecido', "N")
+                .where('db_status.id_status', "3");
+            console.log(animals);
+
+            for (const animal of animals) {
+                const imagens = await db('db_imagem_animal')
+
+                    .select(
+
+                        '*'
+                    )
+                    .where('db_imagem_animal.id_animal', animal.id_animal);
+
+                animal.images = imagens;
+            }
+
+            return res.status(200).json(animals);
+
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: 'Houve um erro ao listar os animais.'
+            });
+        }
+    }
+
+    async indexEmAnalise2(req: Request, res: Response) {
         try {
             const {
                 //role,
