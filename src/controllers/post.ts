@@ -221,7 +221,8 @@ export default class PostController {
                 corpo,
                 autor,
                 data,
-                assuntos
+                assuntos,
+                removeOldImage,
             } = req.body;
 
 
@@ -232,9 +233,12 @@ export default class PostController {
                 autor: autor,
                 data: data
             }
-
+            console.log(removeOldImage, 'oldimggggg');
             //await trx('db_post_assunto').delete().where('id_post', id_post);
-            await trx('db_imagem_post').delete().where('id_post', id_post);
+            if(!removeOldImage || removeOldImage === true){
+                await trx('db_imagem_post').delete().where('id_post', id_post);
+            }
+            
             await trx('db_post').update(post).where('id_post', id_post);
             await trx('db_post_assunto').delete().where('id_post', id_post);
             for (const id_assunto of assuntos) {

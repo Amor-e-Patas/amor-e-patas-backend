@@ -114,7 +114,7 @@ export default class AnimalController {
 
     async indexAprovadosNormais(req: Request, res: Response) {
         try {
-            
+
             const animals = await db('db_animal')
                 .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
                 .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
@@ -795,14 +795,15 @@ export default class AnimalController {
 
                 .select(
 
-                    'db_imagem_animal.filepath'
+                    'db_imagem_animal.filepath',
+                    'db_imagem_animal.id_imagem'
                 )
                 .where('db_imagem_animal.id_animal', id_animal);
 
             animal[0].images = imagens;
 
             const temperamentos = await db('db_animal_temp')
-            .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
+                .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
                 .select(
 
                     'db_animal_temp.id_temperamento',
@@ -813,7 +814,7 @@ export default class AnimalController {
             animal[0].temperamentos = temperamentos;
 
             const sociaveis = await db('db_animal_soci')
-            .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
+                .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
                 .select(
 
                     'db_animal_soci.id_sociavel',
@@ -824,7 +825,7 @@ export default class AnimalController {
             animal[0].sociaveis = sociaveis;
 
             const vivencias = await db('db_animal_vive')
-            .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
+                .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
                 .select(
 
                     'db_animal_vive.id_vivencia',
@@ -893,7 +894,7 @@ export default class AnimalController {
             animal[0].images = imagens;
 
             const temperamentos = await db('db_animal_temp')
-            .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
+                .join("db_temperamento", "db_animal_temp.id_temperamento", "db_temperamento.id_temperamento")
                 .select(
 
                     'db_animal_temp.id_temperamento',
@@ -904,7 +905,7 @@ export default class AnimalController {
             animal[0].temperamentos = temperamentos;
 
             const sociaveis = await db('db_animal_soci')
-            .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
+                .join("db_sociavel", "db_animal_soci.id_sociavel", "db_sociavel.id_sociavel")
                 .select(
 
                     'db_animal_soci.id_sociavel',
@@ -915,7 +916,7 @@ export default class AnimalController {
             animal[0].sociaveis = sociaveis;
 
             const vivencias = await db('db_animal_vive')
-            .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
+                .join("db_vivencia", "db_animal_vive.id_vivencia", "db_vivencia.id_vivencia")
                 .select(
 
                     'db_animal_vive.id_vivencia',
@@ -976,7 +977,7 @@ export default class AnimalController {
                 id_status
             }
             ).returning('id_animal');
-
+            console.log(id_animal, 'idddddd');
             for (const temperamento of temperamentos) {
                 await trx("db_animal_temp").insert(
                     {
@@ -985,6 +986,7 @@ export default class AnimalController {
                     }
                 );
             }
+            console.log(sociaveis, 'sociaveis');
             for (const sociavel of sociaveis) {
                 await trx("db_animal_soci").insert(
                     {
@@ -1031,17 +1033,17 @@ export default class AnimalController {
 
             const {
                 id_status
-                
+
             } = req.body;
             console.log('hsdjsdk')
 
-            await trx('db_animal').update({id_status}).where('id_animal', id_animal);
+            await trx('db_animal').update({ id_status }).where('id_animal', id_animal);
 
             const animal = {
                 id_status: id_status
             }
-            
-            
+
+
             await trx.commit();
             return res.status(201).json({
                 msg: "Animal atualizado com sucesso."
@@ -1082,11 +1084,11 @@ export default class AnimalController {
                 id_status,
                 selectTemps,
                 selectVives,
-                selectSocis
+                selectSocis,
+                imagesToRemove
             } = req.body;
-            console.log()
 
-
+            console.log(imagesToRemove, 'images to rmv');
             const animal = {
                 //id_usuario: id_usuario,
                 nome_ani: nome_ani,
@@ -1102,10 +1104,17 @@ export default class AnimalController {
             }
             console.log(id_usuario, "id_usu");
 
-            await trx('db_imagem_animal').delete().where('id_animal', id_animal);
-
             await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_temp').delete().where('id_animal', id_animal);
+            if (imagesToRemove) {
+                for (const id_imagem of imagesToRemove) {
+                    await trx('db_imagem_animal').delete().where('id_imagem', id_imagem);
+                }
+            } else {
+                await trx('db_imagem_animal').delete().where('id_animal', id_animal);
+            }
+
+
             for (const id_temperamento of selectTemps) {
                 await trx('db_animal_temp').insert(
                     {
@@ -1113,7 +1122,7 @@ export default class AnimalController {
                     }
                 )
             }
-            
+
 
             await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_vive').delete().where('id_animal', id_animal);
@@ -1153,15 +1162,14 @@ export default class AnimalController {
         const trxProvider = await db.transactionProvider();
         const trx = await trxProvider();
         const { id_animal } = req.params;
+        console.log(req.body.data, 'bodyyyyyyyyyyyyy');
         try {
-           
-            await trx('db_animal_temp').delete().where('id_animal', id_animal);
+             await trx('db_animal_temp').delete().where('id_animal', id_animal);
             await trx('db_animal_soci').delete().where('id_animal', id_animal);
             await trx('db_animal_vive').delete().where('id_animal', id_animal);
             await trx('db_imagem_animal').delete().where('id_animal', id_animal);
             await trx('db_animal').delete().where('id_animal', id_animal);
             await trx.commit();
-
             return res.status(201).json({
                 msg: "Animal excluído com sucesso."
             });
@@ -1170,8 +1178,9 @@ export default class AnimalController {
             console.log(error)
             return res.status(400).json({
                 error: 'Erro ao remover animal.'
-                
+
             });
         }
     }
+
 }
