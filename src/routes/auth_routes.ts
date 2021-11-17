@@ -141,6 +141,7 @@ routes.get('/anireprovnormais', animalControllers.indexReprovadosNormais);
 routes.get('/anireprovdesaparecidos', animalControllers.indexReprovadosDesaparecidos);
 routes.get('/anisanalisenormais', animalControllers.indexEmAnaliseNormais);
 routes.get('/anianalisedesaparecidos', animalControllers.indexEmAnaliseDesaparecidos);
+routes.get('/anianalisedesaparecidos2', animalControllers.indexEmAnaliseDesaparecidos2);
 routes.get('/animalreprovdesa', animalControllers.indexDesaparecidosDesa);
 routes.get('/animaisdesaparecidosall', animalControllers.indexAllDesaparecidos);
 routes.get('/animaisnegados', animalControllers.indexNegados);

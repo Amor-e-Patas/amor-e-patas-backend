@@ -419,6 +419,61 @@ export default class AnimalController {
         }
     }
 
+    async indexEmAnaliseDesaparecidos2(req: Request, res: Response) {
+        try {
+            const {
+                //role,
+                id_usuario
+                // id_login
+            } = req.body.user;
+            const animals = await db('db_animal')
+                .join("db_porte", "db_animal.id_porte", "db_porte.id_porte")
+                .join("db_especie", "db_animal.id_especie", "db_especie.id_especie")
+                .join("db_sexo_animal", "db_animal.id_sexo", "db_sexo_animal.id_sexo")
+                .join("db_status", "db_animal.id_status", "db_status.id_status")
+
+                .select(
+                    'db_animal.id_animal',
+                    'db_animal.nome_ani',
+                    'db_animal.idade',
+                    'db_animal.cor',
+                    'db_animal.caracteristica_animal',
+                    'db_animal.data_nasc',
+                    'db_animal.desaparecido',
+                    'db_animal.id_usuario',
+                    'db_animal.id_porte',
+                    'db_animal.id_especie',
+                    'db_animal.id_sexo',
+                    'db_porte.tipo_porte',
+                    'db_especie.nome_esp',
+                    'db_sexo_animal.tipo_sexo',
+                    'db_status.descricao')
+                .where('db_status.id_status', "3")
+                .where('db_animal.desaparecido', "S");
+            console.log(animals);
+
+            for (const animal of animals) {
+                const imagens = await db('db_imagem_animal')
+
+                    .select(
+
+                        '*'
+                    )
+                    .where('db_imagem_animal.id_animal', animal.id_animal);
+
+                animal.images = imagens;
+            }
+
+            return res.status(200).json(animals);
+
+        } catch (err) {
+            console.log(err);
+            return res.status(400).json({
+                error: 'Houve um erro ao listar os animais.'
+            });
+        }
+    }
+
     async indexDesaparecidosDesa(req: Request, res: Response) {
         try {
             const {
@@ -1088,7 +1143,6 @@ export default class AnimalController {
                 imagesToRemove
             } = req.body;
 
-            console.log(imagesToRemove, 'images to rmv');
             const animal = {
                 //id_usuario: id_usuario,
                 nome_ani: nome_ani,
@@ -1102,8 +1156,6 @@ export default class AnimalController {
                 id_sexo: id_sexo,
                 id_status: id_status
             }
-            console.log(id_usuario, "id_usu");
-
             await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_temp').delete().where('id_animal', id_animal);
             if (imagesToRemove) {
@@ -1114,7 +1166,7 @@ export default class AnimalController {
                 await trx('db_imagem_animal').delete().where('id_animal', id_animal);
             }
 
-
+            await trx('db_animal_temp').delete().where('id_animal', id_animal);
             for (const id_temperamento of selectTemps) {
                 await trx('db_animal_temp').insert(
                     {
@@ -1123,8 +1175,6 @@ export default class AnimalController {
                 )
             }
 
-
-            await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_vive').delete().where('id_animal', id_animal);
             for (const id_vivencia of selectVives) {
                 await trx('db_animal_vive').insert(
@@ -1134,7 +1184,6 @@ export default class AnimalController {
                 )
             }
 
-            await trx('db_animal').update(animal).where('id_animal', id_animal);
             await trx('db_animal_soci').delete().where('id_animal', id_animal);
             for (const id_sociavel of selectSocis) {
                 await trx('db_animal_soci').insert(

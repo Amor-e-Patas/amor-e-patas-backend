@@ -235,7 +235,7 @@ export default class PostController {
             }
             console.log(removeOldImage, 'oldimggggg');
             //await trx('db_post_assunto').delete().where('id_post', id_post);
-            if(!removeOldImage || removeOldImage === true){
+            if(removeOldImage === undefined || removeOldImage === true){
                 await trx('db_imagem_post').delete().where('id_post', id_post);
             }
             
